@@ -1,0 +1,156 @@
+[gd_scene load_steps=8 format=3 uid="uid://sg5fx7cr4pkv"]
+
+[ext_resource type="Script" path="res://scripts/menu.gd" id="1_34s7g"]
+[ext_resource type="Texture2D" uid="uid://cwwyt1h4awaq7" path="res://textures/menuback.jpg" id="2_ncwej"]
+[ext_resource type="StyleBox" uid="uid://d3iw64kcok1op" path="res://2d_mats/menupanel.tres" id="3_rx072"]
+[ext_resource type="Theme" uid="uid://otyvwcis0mje" path="res://themes/maintheme.tres" id="4_lssds"]
+[ext_resource type="Texture2D" uid="uid://c4dfx48vefivg" path="res://textures/menubackLines.png" id="4_u4m13"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vfpsi"]
+texture = ExtResource("2_ncwej")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3osqd"]
+bg_color = Color(0.32, 0.32, 0.32, 0.568627)
+skew = Vector2(-0.5, 0)
+
+[node name="menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_34s7g")
+
+[node name="Back" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_vfpsi")
+
+[node name="TextureRect" type="TextureRect" parent="Back"]
+texture_filter = 1
+texture_repeat = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_u4m13")
+stretch_mode = 1
+
+[node name="UserInfo" type="Panel" parent="Back"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.15
+anchor_top = 0.15
+anchor_right = 0.85
+anchor_bottom = 0.85
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_lssds")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Back/UserInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LoginPanel" type="Panel" parent="Back/UserInfo/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = ExtResource("3_rx072")
+
+[node name="GuestPanel" type="Panel" parent="Back/UserInfo/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("4_lssds")
+
+[node name="BoxContainer" type="VBoxContainer" parent="Back/UserInfo/HBoxContainer/GuestPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_lssds")
+
+[node name="Username" type="HBoxContainer" parent="Back/UserInfo/HBoxContainer/GuestPanel/BoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="label" type="Label" parent="Back/UserInfo/HBoxContainer/GuestPanel/BoxContainer/Username"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("4_lssds")
+text = "Name
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="lineedit" type="LineEdit" parent="Back/UserInfo/HBoxContainer/GuestPanel/BoxContainer/Username"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.65
+theme = ExtResource("4_lssds")
+placeholder_text = "Your Name"
+alignment = 1
+
+[node name="LoginGuest" type="Button" parent="Back/UserInfo/HBoxContainer/GuestPanel/BoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("4_lssds")
+text = "Login as Guest"
+autowrap_mode = 2
+icon_alignment = 1
+
+[node name="Matchmaking" type="Panel" parent="Back"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.15
+anchor_top = 0.15
+anchor_right = 0.85
+anchor_bottom = 0.85
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_lssds")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Back/Matchmaking"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Back/Matchmaking/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("4_lssds")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_3osqd")
+text = "Click to find an opponent"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SearchMatch" type="Button" parent="Back/Matchmaking/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("4_lssds")
+theme_override_constants/outline_size = 20
+text = "Search for Opponent"
+
+[connection signal="button_up" from="Back/UserInfo/HBoxContainer/GuestPanel/BoxContainer/LoginGuest" to="." method="_on_login_guest_button_up"]
+[connection signal="button_up" from="Back/Matchmaking/VBoxContainer/SearchMatch" to="." method="_on_search_match_button_up"]

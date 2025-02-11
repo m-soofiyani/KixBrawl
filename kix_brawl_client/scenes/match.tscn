@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://dlbgbytnxhug8"]
+
+[ext_resource type="Script" path="res://scripts/match.gd" id="1_oytcj"]
+
+[node name="Match" type="Node3D"]
+script = ExtResource("1_oytcj")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 408.0
+offset_top = 200.0
+offset_right = -408.0
+offset_bottom = -200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="button_up" from="Control/Button" to="." method="_on_button_button_up"]

@@ -1,0 +1,10 @@
+extends Node
+
+enum Message 
+{
+	GREET,
+	GUESTLOGIN,
+	JOINMATCH,
+	SEARCHOPPONENT,
+	MATCHINFO
+}
