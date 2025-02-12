@@ -20,6 +20,10 @@ config/icon="res://icon.svg"
 Message="*res://scripts/Message.gd"
 Ports="*res://scripts/PORTS.gd"
 
+[physics]
+
+common/physics_ticks_per_second=20
+
 [rendering]
 
 renderer/rendering_method="mobile"

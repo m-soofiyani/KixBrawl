@@ -1,0 +1,22 @@
+[gd_scene load_steps=6 format=3 uid="uid://llstp8nb4sw"]
+
+[ext_resource type="Texture2D" uid="uid://dewrwbeq0r66g" path="res://sprites/joyframe.svg" id="1_b13pv"]
+[ext_resource type="Script" path="res://scripts/joy_stick.gd" id="1_o6w0c"]
+[ext_resource type="Texture2D" uid="uid://bp4m8es3plmy2" path="res://sprites/joystick.svg" id="2_b7qk5"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_7ghbd"]
+blend_mode = 1
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_hssv3"]
+blend_mode = 1
+
+[node name="JoyStick" type="Node2D"]
+script = ExtResource("1_o6w0c")
+
+[node name="Joyframe" type="Sprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_7ghbd")
+texture = ExtResource("1_b13pv")
+
+[node name="Joy" type="Sprite2D" parent="Joyframe"]
+material = SubResource("CanvasItemMaterial_hssv3")
+texture = ExtResource("2_b7qk5")

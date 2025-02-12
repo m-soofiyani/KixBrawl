@@ -19,8 +19,7 @@ func _ready() -> void:
 	else :
 		print("connected to server succsessfully! ")
 	
-	multiplayer.connected_to_server.connect(on_connected_to_server)
-	multiplayer.connection_failed.connect(on_connection_failed)
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -74,9 +73,10 @@ func Start_Match(port):
 	var err = EnetClient.create_client(SERVER_IP , port)
 	if err != OK:
 		print(err)
-	else:
-		print("connected to server")
+
 	multiplayer.multiplayer_peer = EnetClient
+	multiplayer.connected_to_server.connect(on_connected_to_server)
+	multiplayer.connection_failed.connect(on_connection_failed)
 	Peers.EnetPeer = EnetClient
 	get_tree().change_scene_to_packed(preload("res://scenes/match.tscn"))
 
