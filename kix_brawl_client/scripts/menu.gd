@@ -70,19 +70,5 @@ func _on_search_match_button_up() -> void:
 
 func Start_Match(port):
 	
-	var err = EnetClient.create_client(SERVER_IP , port)
-	if err != OK:
-		print(err)
-
-	multiplayer.multiplayer_peer = EnetClient
-	multiplayer.connected_to_server.connect(on_connected_to_server)
-	multiplayer.connection_failed.connect(on_connection_failed)
-	Peers.EnetPeer = EnetClient
+	Peers.PORT = port
 	get_tree().change_scene_to_packed(preload("res://scenes/match.tscn"))
-
-
-func on_connected_to_server():
-	print("connected to enet server!")
-
-func on_connection_failed():
-	print("connection failed")

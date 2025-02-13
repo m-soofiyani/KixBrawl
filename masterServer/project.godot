@@ -18,7 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Message="*res://scripts/Message.gd"
-Ports="*res://scripts/PORTS.gd"
+PortManager="*res://scripts/PortManager.gd"
 
 [physics]
 

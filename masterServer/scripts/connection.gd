@@ -6,7 +6,7 @@ const PORT := 8080
 var OnlineUsers= []
 var JoinMatchPlayers = []
 var last_packet 
-var matchserver_path = "C:/Users/Aftab/Documents/GitHub/KixBrawl/match_server/Exports/matchserver.exe"
+var matchserver_path = "C:/Users/Aftab/Documents/GitHub/KixBrawl/match_server/Exports/matchserver.console.exe"
 
 var output = []
 var searchForOpponent := true
@@ -80,9 +80,9 @@ func on_create_match():
 	for player in JoinMatchPlayers:
 		new_match.matchinfo.append(player)
 		
-	print(new_match.selected_port)
+	
 	var args = ["--port", str(new_match.selected_port)]
-	var pid = OS.create_process(matchserver_path, args , true)
+	var pid =await OS.create_process(matchserver_path, args , true)
 	if pid > 0:
 		print("Started game server on port ", new_match.selected_port, " with PID ", pid)
 	else:
