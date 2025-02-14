@@ -37,7 +37,10 @@ func _physics_process(delta: float) -> void:
 				if Calculated_Player_States.has(id):
 					Calculated_Player_States[id]["T"] = Time.get_ticks_msec()
 					Calculated_Player_States[id]["P"] += Players_States_Collection[id]["V"] * delta * SPEED
-					
+			
+			if get_tree().get_frame() % 20 == 0:
+				send_time_msec_from_server.rpc_id(id , Time.get_ticks_msec())
+				
 		
 			update_client_state.rpc_id(id , Calculated_Player_States)
 					#print(Calculated_Player_States[id]["P"])
@@ -94,4 +97,8 @@ func update_client_state(updated_pos):
 
 @rpc("authority")
 func Define_Ids(player_ids):
+	pass
+
+@rpc("authority")
+func send_time_msec_from_server(time_msec):
 	pass
