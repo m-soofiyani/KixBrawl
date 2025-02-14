@@ -2,7 +2,7 @@ extends Control
 
 var wsclient : WebSocketMultiplayerPeer = WebSocketMultiplayerPeer.new()
 var wsclient_id : int
-const SERVER_IP := "127.0.0.1"
+const SERVER_IP := "91.239.214.89"
 const PORT := 8080
 var last_packet
 
