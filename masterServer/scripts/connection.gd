@@ -82,7 +82,7 @@ func on_create_match():
 		
 	
 	var args = ["--port", str(new_match.selected_port)]
-	var pid =OS.create_process(matchserver_path, args , true)
+	var pid =OS.create_process(matchserver_path, args)
 	if pid > 0:
 		print("Started game server on port ", new_match.selected_port, " with PID ", pid)
 	else:
