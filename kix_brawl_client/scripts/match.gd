@@ -21,7 +21,7 @@ func _ready() -> void:
 	get_tree().paused = true
 	set_physics_process(false)
 	
-	var err = EnetClient.create_client("91.239.214.89" , Peers.PORT)
+	var err = EnetClient.create_client("127.0.0.1" , Peers.PORT)
 	if err != OK:
 		print(err)
 	else:

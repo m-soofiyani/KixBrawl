@@ -12,7 +12,7 @@ var choosen_name : String
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#visual_start()
-	var err = wsclient.create_client("ws://"+ SERVER_IP+":"+str(PORT))
+	var err = wsclient.create_client("ws://"+ "127.0.0.1"+":"+str(PORT))
 	if err != OK:
 		print("Failed to connect : " + err)
 		

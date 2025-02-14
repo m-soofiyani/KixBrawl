@@ -6,7 +6,7 @@ const PORT := 8080
 var OnlineUsers= []
 var JoinMatchPlayers = []
 var last_packet 
-var matchserver_path = "matchserver.x86_64"
+var matchserver_path = "matchserver.console.exe"
 
 var output = []
 var searchForOpponent := true
@@ -82,7 +82,7 @@ func on_create_match():
 		
 	
 	var args = ["--port", str(new_match.selected_port)]
-	var pid =OS.execute(matchserver_path, args)
+	var pid =OS.create_process(matchserver_path, args)
 	if pid > 0:
 		print("Started game server on port ", new_match.selected_port, " with PID ", pid)
 	else:
