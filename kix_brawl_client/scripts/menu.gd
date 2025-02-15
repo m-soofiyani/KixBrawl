@@ -2,7 +2,7 @@ extends Control
 
 var wsclient : WebSocketMultiplayerPeer = WebSocketMultiplayerPeer.new()
 var wsclient_id : int
-const SERVER_IP := "127.0.0.1"
+const SERVER_IP := "91.239.214.89"
 const PORT := 8080
 var last_packet
 
@@ -12,7 +12,7 @@ var choosen_name : String
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#visual_start()
-	var err = wsclient.create_client("ws://"+ SERVER_IP+":"+str(PORT))
+	var err = wsclient.create_client("ws://"+ "127.0.0.1"+":"+str(PORT))
 	if err != OK:
 		print("Failed to connect : " + err)
 		

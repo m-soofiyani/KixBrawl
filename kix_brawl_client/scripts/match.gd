@@ -2,14 +2,16 @@ extends Node3D
 
 var Player_State : Dictionary
 var local_predicted_pos : Vector3
-var server_calculated_state : Dictionary
+var last_server_calculated_state : Dictionary
+var server_states_buffer : Array
 var input_direction : Vector2
 var speed := 2
 
+var render_time : int
+var RenderIntervalFromNow := 100
+var time_offset_from_server : int
 
-
-
-
+var last_pos_applied_render_time : int
 ###############################
 var EnetClient : ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 
@@ -48,32 +50,41 @@ func send_player_state_from_client(message):
 
 @rpc("authority","unreliable")
 func update_client_state(_server_calculated_state):
-	if !server_calculated_state.is_empty():
+	if !last_server_calculated_state.is_empty():
 
-		if _server_calculated_state[$Players.get_children()[0].name.to_int()]["T"] > server_calculated_state[$Players.get_children()[0].name.to_int()]["T"]:
-			server_calculated_state = _server_calculated_state
+		if _server_calculated_state[$Players.get_children()[0].name.to_int()]["T"] > last_server_calculated_state[$Players.get_children()[0].name.to_int()]["T"]:
+			last_server_calculated_state = _server_calculated_state
+			server_states_buffer.append(last_server_calculated_state)
+			if server_states_buffer.size() > 1:
+				if server_states_buffer[0][$Players.get_children()[0].name.to_int()]["T"] < render_time:
+					server_states_buffer.remove_at(0)
 	
 	else:
-		server_calculated_state = _server_calculated_state
+		last_server_calculated_state = _server_calculated_state
 	
-	print(server_calculated_state)
+	
 
 
 func _physics_process(delta: float) -> void:
-	
+	render_time = GetRenderTime(RenderIntervalFromNow)
 	DefinePlayerState()
-	
-	
+	print("render time : " , render_time)
+	print("server_buffer : "  ,server_states_buffer.size())
 	#if local_predicted_pos != server_calculated_state.P:
 		#local_predicted_pos.lerp(server_calculated_state.P , .01)
 		#
-	for id in server_calculated_state.keys():
+	for id in last_server_calculated_state.keys():
 
 		for player in $Players.get_children():
 			
 			if id == player.name.to_int():
-				var server_calculated_pos = Vector3(server_calculated_state[id]["P"].x , .5 , server_calculated_state[id]["P"].y)
-				player.position = server_calculated_pos
+				if !server_states_buffer.is_empty():
+					var server_calculated_pos = Vector3(server_states_buffer[0][id]["P"].x , .5 , server_states_buffer[0][id]["P"].y)
+					var duration = (server_states_buffer[0][id]["T"] - last_pos_applied_render_time) / 1000
+					create_tween().tween_property(player , "position" ,server_calculated_pos, duration)
+					last_pos_applied_render_time = server_states_buffer[0][id]["T"]
+					#player.position.lerp(server_calculated_pos , .1)
+					
 
 	
 func DefinePlayerState():
@@ -98,3 +109,17 @@ func Define_Ids(player_ids):
 		$Players.get_children()[i].name = str(player_ids[i])
 		
 	
+
+func GetRenderTime(renderInterval) -> int:
+	var now = Time.get_ticks_msec()
+	if time_offset_from_server != 0:
+		now = Time.get_ticks_msec() - time_offset_from_server
+	return now - renderInterval
+
+@rpc("authority")
+func send_time_msec_from_server(time_msec):
+	var now = Time.get_ticks_msec()
+	if now > time_msec:
+		time_offset_from_server = now - time_msec
+	else:
+		time_offset_from_server = time_msec - now
