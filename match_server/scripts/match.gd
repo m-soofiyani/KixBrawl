@@ -7,7 +7,8 @@ var message : String
 
 var Players_id : Array
 
-
+var update_interval := 50
+var lasst_update_time := 0.0
 
 var Players_States_Collection : Dictionary
 var Calculated_Player_States : Dictionary
@@ -15,6 +16,7 @@ var Calculated_Player_States : Dictionary
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	
 	var args = OS.get_cmdline_args()
 	for i in range(args.size()):
 		if args[i] == "--port" and i + 1 < args.size():
@@ -30,20 +32,21 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-
+	lasst_update_time += 1000 * delta
+	
+		
 	if Players_id.size() > 1:
 		for id in Players_id:
 			if Players_States_Collection.has(id):
 				if Calculated_Player_States.has(id):
 					Calculated_Player_States[id]["T"] = Time.get_ticks_msec()
 					Calculated_Player_States[id]["P"] += Players_States_Collection[id]["V"] * delta * SPEED
-			
-			if get_tree().get_frame() % 20 == 0:
-				send_time_msec_from_server.rpc_id(id , Time.get_ticks_msec())
-				
-		
+
+					
+			if lasst_update_time >= update_interval:
+				lasst_update_time = 0.0
 			update_client_state.rpc_id(id , Calculated_Player_States)
-					#print(Calculated_Player_States[id]["P"])
+		#print(Calculated_Player_States[id]["P"])
 		#
 		#print("client:" , Players_States_Collection)
 		#print("server:" , Calculated_Player_States)
@@ -67,6 +70,8 @@ func on_peer_disconnected(id : int):
 	message = "Peer Diconnected with id : " + str(id)
 	Players_id.erase(id)
 	print(message)
+	if Players_id.is_empty():
+		OS.kill(OS.get_process_id())
 
 @rpc("authority")
 func welcome(message):
@@ -99,6 +104,12 @@ func update_client_state(updated_pos):
 func Define_Ids(player_ids):
 	pass
 
-@rpc("authority")
+@rpc("authority" , "reliable")
 func send_time_msec_from_server(time_msec):
 	pass
+
+
+func _on_send_server_time_timer_timeout() -> void:
+
+	for id in multiplayer.get_peers():
+		send_time_msec_from_server.rpc_id(id, Time.get_ticks_msec())

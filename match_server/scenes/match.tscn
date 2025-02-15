@@ -4,3 +4,9 @@
 
 [node name="Match" type="Node2D"]
 script = ExtResource("1_ga30p")
+
+[node name="SendServerTimeTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="SendServerTimeTimer" to="." method="_on_send_server_time_timer_timeout"]

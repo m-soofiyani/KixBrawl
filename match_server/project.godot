@@ -21,6 +21,10 @@ window/size/viewport_width=1280
 window/size/viewport_height=540
 window/stretch/mode="viewport"
 
+[physics]
+
+common/physics_ticks_per_second=20
+
 [rendering]
 
 renderer/rendering_method="mobile"

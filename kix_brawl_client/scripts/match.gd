@@ -55,9 +55,10 @@ func update_client_state(_server_calculated_state):
 		if _server_calculated_state[$Players.get_children()[0].name.to_int()]["T"] > last_server_calculated_state[$Players.get_children()[0].name.to_int()]["T"]:
 			last_server_calculated_state = _server_calculated_state
 			server_states_buffer.append(last_server_calculated_state)
-			if server_states_buffer.size() > 1:
-				if server_states_buffer[0][$Players.get_children()[0].name.to_int()]["T"] < render_time:
-					server_states_buffer.remove_at(0)
+			# Remove old states (keep 100ms buffer)
+			var cutoff = GetRenderTime(RenderIntervalFromNow)
+			while server_states_buffer.size() > 0 && server_states_buffer[0][$Players.get_children()[0].name.to_int()]["T"] < cutoff:
+				server_states_buffer.remove_at(0)
 	
 	else:
 		last_server_calculated_state = _server_calculated_state
@@ -66,25 +67,35 @@ func update_client_state(_server_calculated_state):
 
 
 func _physics_process(delta: float) -> void:
+	#if server_states_buffer.is_empty():
+		#return
+		#
 	render_time = GetRenderTime(RenderIntervalFromNow)
 	DefinePlayerState()
-	print("render time : " , render_time)
-	print("server_buffer : "  ,server_states_buffer.size())
-	#if local_predicted_pos != server_calculated_state.P:
-		#local_predicted_pos.lerp(server_calculated_state.P , .01)
-		#
+	
+	local_predicted_pos += Vector3(input_direction.x, .5, input_direction.y) * speed * delta
+
+	for player in $Players.get_children():
+		if player.name.to_int() == multiplayer.get_unique_id():
+			position = local_predicted_pos
+			
+	
 	for id in last_server_calculated_state.keys():
 
 		for player in $Players.get_children():
-			
 			if id == player.name.to_int():
-				if !server_states_buffer.is_empty():
-					var server_calculated_pos = Vector3(server_states_buffer[0][id]["P"].x , .5 , server_states_buffer[0][id]["P"].y)
-					var duration = (server_states_buffer[0][id]["T"] - last_pos_applied_render_time) / 1000
-					create_tween().tween_property(player , "position" ,server_calculated_pos, duration)
-					last_pos_applied_render_time = server_states_buffer[0][id]["T"]
-					#player.position.lerp(server_calculated_pos , .1)
+				if server_states_buffer.size() > 2:
+					var state_a = server_states_buffer[0]
+					var state_b = server_states_buffer[1]
 					
+					if state_a[id]["T"] <= render_time && state_b[id]["T"] >= render_time:
+						var interpolate_factor = inverse_lerp(state_a[id]["T"] , state_b[id]["T"] , render_time)
+						var interpolated_pos = Vector3(
+							lerp(state_a[id]["P"].x , state_b[id]["P"].x , interpolate_factor),
+							0.5,
+							lerp(state_a[id]["P"].y , state_b[id]["P"].y , interpolate_factor)
+						)
+						player.position = interpolated_pos
 
 	
 func DefinePlayerState():
@@ -113,13 +124,11 @@ func Define_Ids(player_ids):
 func GetRenderTime(renderInterval) -> int:
 	var now = Time.get_ticks_msec()
 	if time_offset_from_server != 0:
-		now = Time.get_ticks_msec() - time_offset_from_server
+		now -= time_offset_from_server  # Align client time with server time
 	return now - renderInterval
-
-@rpc("authority")
+	
+	
+@rpc("authority" , "reliable")
 func send_time_msec_from_server(time_msec):
 	var now = Time.get_ticks_msec()
-	if now > time_msec:
-		time_offset_from_server = now - time_msec
-	else:
-		time_offset_from_server = time_msec - now
+	time_offset_from_server = now - time_msec 
