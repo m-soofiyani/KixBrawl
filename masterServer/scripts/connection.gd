@@ -6,7 +6,7 @@ const PORT := 8080
 var OnlineUsers= []
 var JoinMatchPlayers = []
 var last_packet 
-var matchserver_path = "matchserver.console.exe"
+var matchserver_path = "matchserver.x86_64"
 
 var output = []
 var searchForOpponent := true
