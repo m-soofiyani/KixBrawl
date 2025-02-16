@@ -37,3 +37,9 @@ mesh = SubResource("QuadMesh_0i6g2")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.534559, 0.501065, 0.680573, 1.4454e-08, -0.805287, 0.592885, 0.845131, 0.316932, 0.430473, 0, 4.28807, -4.41119)
 shadow_enabled = true
+
+[node name="EstimateRTT_Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="EstimateRTT_Timer" to="." method="_on_estimate_rtt_timer_timeout"]

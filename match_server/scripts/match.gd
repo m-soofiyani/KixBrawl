@@ -7,8 +7,7 @@ var message : String
 
 var Players_id : Array
 
-var update_interval := 50
-var lasst_update_time := 0.0
+
 
 var Players_States_Collection : Dictionary
 var Calculated_Player_States : Dictionary
@@ -32,7 +31,6 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	lasst_update_time += 1000 * delta
 	
 		
 	if Players_id.size() > 1:
@@ -43,8 +41,7 @@ func _physics_process(delta: float) -> void:
 					Calculated_Player_States[id]["P"] += Players_States_Collection[id]["V"] * delta * SPEED
 
 					
-			if lasst_update_time >= update_interval:
-				lasst_update_time = 0.0
+
 			update_client_state.rpc_id(id , Calculated_Player_States)
 		#print(Calculated_Player_States[id]["P"])
 		#
@@ -113,3 +110,12 @@ func _on_send_server_time_timer_timeout() -> void:
 
 	for id in multiplayer.get_peers():
 		send_time_msec_from_server.rpc_id(id, Time.get_ticks_msec())
+
+
+@rpc("any_peer" , "reliable")
+func send_time_milisec_from_client(client_time_milisec):
+	get_client_sent_time_milisec.rpc_id(multiplayer.get_remote_sender_id() , client_time_milisec)
+	
+@rpc("authority" , "reliable")
+func get_client_sent_time_milisec(client_sent_time_milisec):
+	pass
