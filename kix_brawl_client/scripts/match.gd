@@ -7,7 +7,7 @@ var server_states_buffer : Array
 var input_direction : Vector2
 var speed := 2
 
-var render_time : int
+var synced_time_ms : int
 var RTT :=0 
 var RenderIntervalFromNow := 100
 var time_offset_from_server : int
@@ -54,14 +54,14 @@ func send_player_state_from_client(message):
 
 @rpc("authority","unreliable")
 func update_client_state(_server_calculated_state):
-	print(server_states_buffer)
+	#print(server_states_buffer)
 	if !last_server_calculated_state.is_empty():
 
 		if _server_calculated_state[$Players.get_children()[0].name.to_int()]["T"] > last_server_calculated_state[$Players.get_children()[0].name.to_int()]["T"]:
 			last_server_calculated_state = _server_calculated_state
 			server_states_buffer.append(last_server_calculated_state)
 			# Remove old states (keep 100ms buffer)
-			var cutoff = SyncTimeWithServer(RenderIntervalFromNow)
+			var cutoff = SyncTimeWithServer()
 			while server_states_buffer.size() > 0 && server_states_buffer[0][$Players.get_children()[0].name.to_int()]["T"] < cutoff:
 				server_states_buffer.remove_at(0)
 	
@@ -75,14 +75,16 @@ func _physics_process(delta: float) -> void:
 	#if server_states_buffer.is_empty():
 		#return
 		#
-	render_time = SyncTimeWithServer(RenderIntervalFromNow)
+	synced_time_ms = SyncTimeWithServer()
+
 	DefinePlayerState()
 	
-	local_predicted_pos += Vector3(input_direction.x, .5, input_direction.y) * speed * delta
+	local_predicted_pos += Vector3(input_direction.x, 0, input_direction.y) * speed * delta
 
-	for player in $Players.get_children():
-		if player.name.to_int() == multiplayer.get_unique_id():
-			position = local_predicted_pos
+	#for player in $Players.get_children():
+		#if player.name.to_int() == multiplayer.get_unique_id():
+			#local_predicted_pos.y = .5
+			#player.position = local_predicted_pos
 			
 	
 	for id in last_server_calculated_state.keys():
@@ -92,14 +94,15 @@ func _physics_process(delta: float) -> void:
 				if server_states_buffer.size() > 2:
 					var state_a = server_states_buffer[0]
 					var state_b = server_states_buffer[1]
-					print(server_states_buffer)
-					if state_a[id]["T"] <= render_time && state_b[id]["T"] >= render_time:
-						var interpolate_factor = inverse_lerp(state_a[id]["T"] , state_b[id]["T"] , render_time)
+
+					if state_a[id]["T"] <= synced_time_ms && state_b[id]["T"] >= synced_time_ms:
+						var interpolate_factor = inverse_lerp(state_a[id]["T"] , state_b[id]["T"] , synced_time_ms)
 						var interpolated_pos = Vector3(
 							lerp(state_a[id]["P"].x , state_b[id]["P"].x , interpolate_factor),
 							0.5,
 							lerp(state_a[id]["P"].y , state_b[id]["P"].y , interpolate_factor)
 						)
+						print(server_states_buffer)
 						
 						player.position = interpolated_pos
 
@@ -127,18 +130,20 @@ func Define_Ids(player_ids):
 		
 	
 
-func SyncTimeWithServer(renderInterval) -> int:
+func SyncTimeWithServer() -> int:
+	var result := 0
 	var now = Time.get_ticks_msec()
 	if time_offset_from_server != 0:
-		
 		now -= time_offset_from_server  # Align client time with server time
-	return now - renderInterval
+		result = now - 100
+	return result
 	
 	
 @rpc("authority" , "reliable")
 func send_time_msec_from_server(time_msec):
 	var now = Time.get_ticks_msec()
-	
+	print("server time : " , time_msec)
+	print("synced_time : " , synced_time_ms)
 	time_offset_from_server = now - time_msec 
 
 
@@ -151,9 +156,8 @@ func send_time_milisec_from_client(client_time_milisec):
 func get_client_sent_time_milisec(client_sent_time_milisec):
 	var now = Time.get_ticks_msec()
 	RTT = now - client_sent_time_milisec
-	RenderIntervalFromNow = RTT/2
-
-	print("RenderIntervalFromNow : " , RenderIntervalFromNow)
+	print("RTT" , RTT)
 	
+		
 func _on_estimate_rtt_timer_timeout() -> void:
 	send_time_milisec_from_client.rpc_id(1 , Time.get_ticks_msec())

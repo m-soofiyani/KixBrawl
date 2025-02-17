@@ -39,7 +39,7 @@ transform = Transform3D(-0.534559, 0.501065, 0.680573, 1.4454e-08, -0.805287, 0.
 shadow_enabled = true
 
 [node name="EstimateRTT_Timer" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 0.1
 autostart = true
 
 [connection signal="timeout" from="EstimateRTT_Timer" to="." method="_on_estimate_rtt_timer_timeout"]

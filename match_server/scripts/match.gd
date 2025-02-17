@@ -34,10 +34,11 @@ func _physics_process(delta: float) -> void:
 	
 		
 	if Players_id.size() > 1:
+		var now =  Time.get_ticks_msec()
 		for id in Players_id:
 			if Players_States_Collection.has(id):
 				if Calculated_Player_States.has(id):
-					Calculated_Player_States[id]["T"] = Time.get_ticks_msec()
+					Calculated_Player_States[id]["T"] = now
 					Calculated_Player_States[id]["P"] += Players_States_Collection[id]["V"] * delta * SPEED
 
 					
@@ -55,11 +56,11 @@ func on_peer_connected(id:int):
 	Players_id.append(id)
 	
 	print(message)
-	for _id in Players_id:
-		welcome.rpc_id(_id , "Welcome you added to Players IDS of this match!")
+		
 	
 	if Players_id.size() == 2:
 		for player_id in Players_id:
+			welcome.rpc_id(player_id , "Welcome you added to Players IDS of this match!")
 			Calculated_Player_States[player_id] = {"T" : Time.get_ticks_msec() , "P" : Vector2.ZERO}
 			Define_Ids.rpc_id(player_id , Players_id)
 	
@@ -108,7 +109,7 @@ func send_time_msec_from_server(time_msec):
 
 func _on_send_server_time_timer_timeout() -> void:
 
-	for id in multiplayer.get_peers():
+	for id in Players_id:
 		send_time_msec_from_server.rpc_id(id, Time.get_ticks_msec())
 
 
