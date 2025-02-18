@@ -30,7 +30,7 @@ func _ready() -> void:
 	multiplayer.peer_disconnected.connect(on_peer_disconnected)
 
 
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	
 		
 	if Players_id.size() > 1:
@@ -44,11 +44,7 @@ func _physics_process(delta: float) -> void:
 					
 
 			update_client_state.rpc_id(id , Calculated_Player_States)
-		#print(Calculated_Player_States[id]["P"])
-		#
-		#print("client:" , Players_States_Collection)
-		#print("server:" , Calculated_Player_States)
-		#print(pos2)
+
 
 	
 func on_peer_connected(id:int):
@@ -75,11 +71,6 @@ func on_peer_disconnected(id : int):
 func welcome(message):
 	pass
 
-
-#@rpc("any_peer" , "unreliable")
-#func send_input_from_client(input_vel):
-	#client_input_vel = input_vel
-	
 
 @rpc("any_peer" , "unreliable")
 func send_player_state_from_client(player_state):
