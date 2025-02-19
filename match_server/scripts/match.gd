@@ -1,8 +1,8 @@
 extends Node2D
 
 var enetserver_peer : ENetMultiplayerPeer = ENetMultiplayerPeer.new()
-var port : int
-var SPEED := 2
+var port : int = 8081
+var SPEED := 400
 var message : String
 
 var Players_id : Array
@@ -16,11 +16,11 @@ var Calculated_Player_States : Dictionary
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
-	var args = OS.get_cmdline_args()
-	for i in range(args.size()):
-		if args[i] == "--port" and i + 1 < args.size():
-			port = int(args[i + 1])
-			break
+	#var args = OS.get_cmdline_args()
+	#for i in range(args.size()):
+		#if args[i] == "--port" and i + 1 < args.size():
+			#port = int(args[i + 1])
+			#break
 	
 	enetserver_peer.create_server(port)
 	multiplayer.set_multiplayer_peer(enetserver_peer)
@@ -35,15 +35,17 @@ func _process(delta: float) -> void:
 		
 	if Players_id.size() > 1:
 		var now =  Time.get_ticks_msec()
-		for id in Players_id:
-			if Players_States_Collection.has(id):
-				if Calculated_Player_States.has(id):
-					Calculated_Player_States[id]["T"] = now
-					Calculated_Player_States[id]["P"] += Players_States_Collection[id]["V"] * delta * SPEED
+		for player_index in Players_id.size():
+			if Players_States_Collection.has(Players_id[player_index]):
+				if Calculated_Player_States.has(Players_id[player_index]):
+					Calculated_Player_States[Players_id[player_index]]["T"] = now
+					$Players.get_children()[player_index].velocity = Players_States_Collection[Players_id[player_index]]["V"] * delta * SPEED
+					$Players.get_children()[player_index].move_and_slide()
+					Calculated_Player_States[Players_id[player_index]]["P"] = $Players.get_children()[player_index].position
 
 					
 
-			update_client_state.rpc_id(id , Calculated_Player_States)
+			update_client_state.rpc_id(Players_id[player_index] , Calculated_Player_States)
 
 
 	
@@ -52,13 +54,16 @@ func on_peer_connected(id:int):
 	Players_id.append(id)
 	
 	print(message)
-		
+	
+	
 	
 	if Players_id.size() == 2:
-		for player_id in Players_id:
-			welcome.rpc_id(player_id , "Welcome you added to Players IDS of this match!")
-			Calculated_Player_States[player_id] = {"T" : Time.get_ticks_msec() , "P" : Vector2.ZERO}
-			Define_Ids.rpc_id(player_id , Players_id)
+		for player_index in Players_id.size():
+			welcome.rpc_id(Players_id[player_index] , "Welcome you added to Players IDS of this match!")
+			$Players.get_children()[player_index].name = str(Players_id[player_index])
+			Calculated_Player_States[Players_id[player_index]] = {"T" : Time.get_ticks_msec() , "P" : $Players.get_children()[player_index].position}
+			update_client_state.rpc_id(Players_id[player_index] , Calculated_Player_States)
+			Define_Ids.rpc_id(Players_id[player_index] , Players_id)
 	
 func on_peer_disconnected(id : int):
 	message = "Peer Diconnected with id : " + str(id)
@@ -74,7 +79,7 @@ func welcome(message):
 
 @rpc("any_peer" , "unreliable")
 func send_player_state_from_client(player_state):
-
+	#print(player_state)
 	var player_id = multiplayer.get_remote_sender_id()
 	
 	if Players_States_Collection.has(player_id):

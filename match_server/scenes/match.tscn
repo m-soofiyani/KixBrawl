@@ -1,6 +1,28 @@
-[gd_scene load_steps=2 format=3 uid="uid://b2kvb2lngd4p4"]
+[gd_scene load_steps=8 format=3 uid="uid://b2kvb2lngd4p4"]
 
 [ext_resource type="Script" path="res://scripts/match.gd" id="1_ga30p"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ig755"]
+size = Vector2(1, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_io0rm"]
+size = Vector2(1, 1)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_l2pgc"]
+a = Vector2(10, 10)
+b = Vector2(10, -10)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_s7ylk"]
+a = Vector2(-10, -10)
+b = Vector2(10, -10)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_4qnl8"]
+a = Vector2(10, 10)
+b = Vector2(-10, 10)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_t6ho3"]
+a = Vector2(-10, -10)
+b = Vector2(-10, 10)
 
 [node name="Match" type="Node2D"]
 script = ExtResource("1_ga30p")
@@ -8,5 +30,39 @@ script = ExtResource("1_ga30p")
 [node name="SendServerTimeTimer" type="Timer" parent="."]
 wait_time = 0.5
 autostart = true
+
+[node name="Players" type="Node2D" parent="."]
+
+[node name="player1" type="CharacterBody2D" parent="Players"]
+position = Vector2(4, 0)
+motion_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Players/player1"]
+shape = SubResource("RectangleShape2D_ig755")
+
+[node name="player2" type="CharacterBody2D" parent="Players"]
+position = Vector2(-4, 0)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Players/player2"]
+shape = SubResource("RectangleShape2D_io0rm")
+
+[node name="Map" type="Node2D" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Map"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/StaticBody2D"]
+shape = SubResource("SegmentShape2D_l2pgc")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Map/StaticBody2D"]
+shape = SubResource("SegmentShape2D_s7ylk")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Map/StaticBody2D"]
+shape = SubResource("SegmentShape2D_4qnl8")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Map/StaticBody2D"]
+shape = SubResource("SegmentShape2D_t6ho3")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(13.53, 13.53)
 
 [connection signal="timeout" from="SendServerTimeTimer" to="." method="_on_send_server_time_timer_timeout"]
