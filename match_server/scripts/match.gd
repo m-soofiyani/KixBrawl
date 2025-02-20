@@ -2,7 +2,7 @@ extends Node2D
 
 var enetserver_peer : ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 var port : int = 8081
-var SPEED := 400
+var SPEED := 600
 var message : String
 
 var Players_id : Array

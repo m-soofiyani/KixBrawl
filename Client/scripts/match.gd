@@ -79,7 +79,7 @@ func _process(delta: float) -> void:
 	synced_time_ms = SyncTimeWithServer()
 
 	DefinePlayerState()
-	camerafollowing()
+	#camerafollowing()
 	local_predicted_pos += Vector3(input_direction.x, 0, input_direction.y) * speed * delta
 
 	for player in $Players.get_children():
