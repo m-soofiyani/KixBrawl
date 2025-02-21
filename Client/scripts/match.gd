@@ -56,7 +56,7 @@ func send_player_state_from_client(message):
 @rpc("authority","unreliable")
 func update_client_state(_server_calculated_state):
 	#print(server_states_buffer)
-	#print(server_states_buffer)
+	#print(_server_calculated_state)
 	if !last_server_calculated_state.is_empty():
 
 		if _server_calculated_state[$Players.get_children()[0].name.to_int()]["T"] > last_server_calculated_state[$Players.get_children()[0].name.to_int()]["T"]:
@@ -88,27 +88,45 @@ func _process(delta: float) -> void:
 			#player.position = local_predicted_pos
 			
 	
-	for id in last_server_calculated_state.keys():
+	for key in last_server_calculated_state.keys():
+		
+		#applying server calculations for players
+		if typeof(key) == TYPE_INT:
+			for player in $Players.get_children():
+				if key == player.name.to_int():
+					if server_states_buffer.size() > 2:
+						var state_a = server_states_buffer[0]
+						var state_b = server_states_buffer[-1]
+						server_ticks_interval =  state_b[key]["T"] - state_a[key]["T"]
 
-		for player in $Players.get_children():
-			if id == player.name.to_int():
-				if server_states_buffer.size() > 2:
-					var state_a = server_states_buffer[0]
-					var state_b = server_states_buffer[-1]
-					server_ticks_interval =  state_b[id]["T"] - state_a[id]["T"]
 
-					#print("server_ticks_interval : " ,server_ticks_interval)
-					#print([state_a[id]["T"] , synced_time_ms ,state_b[id]["T"] ])
-					if state_a[id]["T"] <= synced_time_ms && state_b[id]["T"] >= synced_time_ms:
-						var interpolate_factor = inverse_lerp(state_a[id]["T"] , state_b[id]["T"] , synced_time_ms)
-						var interpolated_pos = Vector3(
-							lerp(state_a[id]["P"].x , state_b[id]["P"].x , interpolate_factor),
-							0.5,
-							lerp(state_a[id]["P"].y , state_b[id]["P"].y , interpolate_factor)
-						)
+						if state_a[key]["T"] <= synced_time_ms && state_b[key]["T"] >= synced_time_ms:
+							var interpolate_factor = inverse_lerp(state_a[key]["T"] , state_b[key]["T"] , synced_time_ms)
+							var interpolated_pos = Vector3(
+								lerp(state_a[key]["P"].x , state_b[key]["P"].x , interpolate_factor),
+								0.5,
+								lerp(state_a[key]["P"].y , state_b[key]["P"].y , interpolate_factor)
+							)
 
-						player.position = interpolated_pos
+							player.position = interpolated_pos
 	
+	
+		#applying server calculations for granools
+		if typeof(key) == TYPE_STRING:
+			for granool in $Granools.get_children():
+				if key == granool.name:
+					if server_states_buffer.size() > 2:
+						var state_a = server_states_buffer[0]
+						var state_b = server_states_buffer[-1]
+						
+						if state_a[key]["T"] <= synced_time_ms && state_b[key]["T"] >= synced_time_ms:
+							var interpolate_factor = inverse_lerp(state_a[key]["T"] , state_b[key]["T"] , synced_time_ms)
+							var interpolated_pos = Vector3(
+								lerp(state_a[key]["P"].x , state_b[key]["P"].x , interpolate_factor),
+								0.2,
+								lerp(state_a[key]["P"].y , state_b[key]["P"].y , interpolate_factor)
+							)
+							granool.position = interpolated_pos
 func DefinePlayerState():
 	Player_State = { "T" :  Time.get_ticks_msec() , "V" : input_direction }
 	send_player_state_from_client.rpc_id(1 , Player_State)
@@ -135,6 +153,7 @@ func Define_Ids(player_ids):
 func SyncTimeWithServer() -> int:
 	var result : int
 	var now = Time.get_ticks_msec()
+
 	if time_offset_from_server != 0:
 		#print(time_offset_from_server)
 		now -= time_offset_from_server  # Align client time with server time
@@ -145,9 +164,10 @@ func SyncTimeWithServer() -> int:
 @rpc("authority" , "reliable")
 func send_time_msec_from_server(time_msec):
 	var now = Time.get_ticks_msec()
-	#print("server time : " , time_msec)
-	#print("synced_time : " , synced_time_ms)
-	time_offset_from_server = now - time_msec 
+	print("server time : " , time_msec)
+	print("synced_time : " , synced_time_ms)
+
+	time_offset_from_server = now - time_msec
 	#print("time_offset_from_server : ", time_offset_from_server)
 
 

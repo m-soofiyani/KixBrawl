@@ -1,0 +1,12 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://ca60pk8y5w5dj"]
+
+[resource]
+diffuse_mode = 1
+albedo_color = Color(0.352653, 0.299169, 1, 1)
+roughness = 0.42
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 16.0
+rim_enabled = true
+rim_tint = 0.77
+grow_amount = 0.485
+distance_fade_max_distance = 3.15

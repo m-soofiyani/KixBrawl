@@ -1,0 +1,15 @@
+DirectionalLight3D
+MeshInstance3D
+Camera3D
+Node3D
+Node2D
+Button
+Control
+Label
+VBoxContainer
+Panel
+TextureRect
+LineEdit
+HBoxContainer
+AnimationPlayer
+BoxContainer

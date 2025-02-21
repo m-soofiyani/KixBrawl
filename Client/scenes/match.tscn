@@ -1,26 +1,29 @@
-[gd_scene load_steps=21 format=3 uid="uid://dlbgbytnxhug8"]
+[gd_scene load_steps=26 format=3 uid="uid://dlbgbytnxhug8"]
 
 [ext_resource type="Script" path="res://scripts/match.gd" id="1_oytcj"]
 [ext_resource type="PackedScene" uid="uid://llstp8nb4sw" path="res://scenes/JoyStick.tscn" id="2_j27pq"]
 [ext_resource type="PackedScene" uid="uid://cle8x0klh7wl6" path="res://models/wall.glb" id="3_1k3ru"]
 [ext_resource type="PackedScene" uid="uid://br2l7bwxtyjrg" path="res://models/border-corner.glb" id="3_5ochq"]
 [ext_resource type="PackedScene" uid="uid://dktb0605573ng" path="res://models/floor-detail.glb" id="3_63npq"]
+[ext_resource type="Material" uid="uid://ca60pk8y5w5dj" path="res://materials/granools/1.tres" id="3_qdi6w"]
 [ext_resource type="PackedScene" uid="uid://dc1yw4mnhqatn" path="res://models/border-straight.glb" id="4_1tp27"]
 [ext_resource type="PackedScene" uid="uid://cp6q1x7sbecwg" path="res://models/floor.glb" id="4_gahmu"]
+[ext_resource type="Material" uid="uid://crs7dcm401al6" path="res://materials/granools/2.tres" id="4_ufk4s"]
 [ext_resource type="PackedScene" uid="uid://cbdbpxq5vd7wj" path="res://models/wall-corner.glb" id="4_vf4r7"]
+[ext_resource type="Material" uid="uid://csllb42qviuaq" path="res://materials/granools/3.tres" id="5_clvly"]
+[ext_resource type="Material" uid="uid://cw0lc4qd80tqj" path="res://materials/granools/4.tres" id="6_pcf7e"]
+[ext_resource type="Material" uid="uid://sbwgesmub7i5" path="res://materials/granools/5.tres" id="7_b7rwn"]
 [ext_resource type="PackedScene" uid="uid://ckslh2jhq8m3j" path="res://models/column.glb" id="7_rkkki"]
+[ext_resource type="Material" uid="uid://banky8beremf" path="res://materials/granools/6.tres" id="8_adavu"]
 [ext_resource type="PackedScene" uid="uid://pqrlfntwn1yj" path="res://models/banner.glb" id="10_kfge0"]
 [ext_resource type="PackedScene" uid="uid://cbd5mm52rneud" path="res://models/tree.glb" id="10_ymf4t"]
 [ext_resource type="Shader" uid="uid://u8iredkwx4n6" path="res://materials/logoEnglish.tres" id="12_jmu4w"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_rm8m2"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fy2iw"]
-albedo_color = Color(0.215902, 0.215902, 0.215902, 1)
-
-[sub_resource type="QuadMesh" id="QuadMesh_0i6g2"]
-size = Vector2(20, 20)
-orientation = 1
+[sub_resource type="SphereMesh" id="SphereMesh_cwunu"]
+radius = 0.2
+height = 0.4
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5xmxk"]
 render_priority = 0
@@ -95,17 +98,44 @@ mesh = SubResource("BoxMesh_rm8m2")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.5, 0)
 mesh = SubResource("BoxMesh_rm8m2")
 
+[node name="Granools" type="Node3D" parent="."]
+
+[node name="granool" type="MeshInstance3D" parent="Granools"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+material_override = ExtResource("3_qdi6w")
+mesh = SubResource("SphereMesh_cwunu")
+
+[node name="granool2" type="MeshInstance3D" parent="Granools"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+material_override = ExtResource("4_ufk4s")
+mesh = SubResource("SphereMesh_cwunu")
+
+[node name="granool3" type="MeshInstance3D" parent="Granools"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+material_override = ExtResource("5_clvly")
+mesh = SubResource("SphereMesh_cwunu")
+
+[node name="granool4" type="MeshInstance3D" parent="Granools"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+material_override = ExtResource("6_pcf7e")
+mesh = SubResource("SphereMesh_cwunu")
+
+[node name="granool5" type="MeshInstance3D" parent="Granools"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+material_override = ExtResource("7_b7rwn")
+mesh = SubResource("SphereMesh_cwunu")
+
+[node name="granool6" type="MeshInstance3D" parent="Granools"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+material_override = ExtResource("8_adavu")
+mesh = SubResource("SphereMesh_cwunu")
+
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.642788, 0.766044, 0, -0.766044, 0.642788, 0, 120, 100.23)
 fov = 3.0
 size = 20.366
 near = 0.041
 far = 1000.0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-visible = false
-material_override = SubResource("StandardMaterial3D_fy2iw")
-mesh = SubResource("QuadMesh_0i6g2")
 
 [node name="EstimateRTT_Timer" type="Timer" parent="."]
 wait_time = 0.1

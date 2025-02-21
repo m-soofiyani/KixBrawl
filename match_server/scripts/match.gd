@@ -2,7 +2,7 @@ extends Node2D
 
 var enetserver_peer : ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 var port : int = 8081
-var SPEED := 600
+var SPEED := 200
 var message : String
 
 var Players_id : Array
@@ -42,9 +42,12 @@ func _process(delta: float) -> void:
 					$Players.get_children()[player_index].velocity = Players_States_Collection[Players_id[player_index]]["V"] * delta * SPEED
 					$Players.get_children()[player_index].move_and_slide()
 					Calculated_Player_States[Players_id[player_index]]["P"] = $Players.get_children()[player_index].position
-
 					
-
+					
+			for granool in $Granools.get_children():
+				Calculated_Player_States[granool.name]["P"] = granool.position
+				Calculated_Player_States[granool.name]["V"] = granool.linear_velocity
+				Calculated_Player_States[granool.name]["T"] = now
 			update_client_state.rpc_id(Players_id[player_index] , Calculated_Player_States)
 
 
@@ -62,9 +65,11 @@ func on_peer_connected(id:int):
 			welcome.rpc_id(Players_id[player_index] , "Welcome you added to Players IDS of this match!")
 			$Players.get_children()[player_index].name = str(Players_id[player_index])
 			Calculated_Player_States[Players_id[player_index]] = {"T" : Time.get_ticks_msec() , "P" : $Players.get_children()[player_index].position}
+			for granool in $Granools.get_children():
+				Calculated_Player_States[granool.name] = {"P" : granool.position , "V" : granool.linear_velocity , "T" : Time.get_ticks_msec()}
 			update_client_state.rpc_id(Players_id[player_index] , Calculated_Player_States)
 			Define_Ids.rpc_id(Players_id[player_index] , Players_id)
-	
+
 func on_peer_disconnected(id : int):
 	message = "Peer Diconnected with id : " + str(id)
 	Players_id.erase(id)

@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://b2kvb2lngd4p4"]
+[gd_scene load_steps=7 format=3 uid="uid://b2kvb2lngd4p4"]
 
 [ext_resource type="Script" path="res://scripts/match.gd" id="1_ga30p"]
+[ext_resource type="Script" path="res://scripts/grnoolBehivior.gd" id="2_ds1e7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ig755"]
 size = Vector2(1, 1)
@@ -8,21 +9,8 @@ size = Vector2(1, 1)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_io0rm"]
 size = Vector2(1, 1)
 
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_l2pgc"]
-a = Vector2(9, 4)
-b = Vector2(9, -4)
-
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_s7ylk"]
-a = Vector2(-9, -4)
-b = Vector2(9, -4)
-
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_4qnl8"]
-a = Vector2(9, 4)
-b = Vector2(-9, 4)
-
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_t6ho3"]
-a = Vector2(-9, -4)
-b = Vector2(-9, 4)
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_4k5al"]
+bounce = 0.65
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_in6vt"]
 radius = 0.2
@@ -31,7 +19,6 @@ radius = 0.2
 script = ExtResource("1_ga30p")
 
 [node name="SendServerTimeTimer" type="Timer" parent="."]
-wait_time = 0.5
 autostart = true
 
 [node name="Players" type="Node2D" parent="."]
@@ -54,31 +41,94 @@ shape = SubResource("RectangleShape2D_io0rm")
 [node name="Map" type="Node2D" parent="."]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Map"]
+disable_mode = 2
 collision_mask = 6
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/StaticBody2D"]
-shape = SubResource("SegmentShape2D_l2pgc")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Map/StaticBody2D"]
-shape = SubResource("SegmentShape2D_s7ylk")
-
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="Map/StaticBody2D"]
-shape = SubResource("SegmentShape2D_4qnl8")
-
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="Map/StaticBody2D"]
-shape = SubResource("SegmentShape2D_t6ho3")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Map/StaticBody2D"]
+build_mode = 1
+polygon = PackedVector2Array(-9.4, -3.8, 9.4, -3.8, 9.4, 2.8, -9.4, 2.8)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(23.99, 23.99)
+offset = Vector2(0, -0.48)
+zoom = Vector2(30.855, 30.855)
 
 [node name="Granools" type="Node2D" parent="."]
 
 [node name="granool" type="RigidBody2D" parent="Granools"]
+position = Vector2(0, -1)
 collision_layer = 4
 collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_4k5al")
+gravity_scale = 0.0
+lock_rotation = true
 custom_integrator = true
+script = ExtResource("2_ds1e7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Granools/granool"]
+shape = SubResource("CircleShape2D_in6vt")
+
+[node name="granool5" type="RigidBody2D" parent="Granools"]
+position = Vector2(0, 1)
+collision_layer = 4
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_4k5al")
+gravity_scale = 0.0
+lock_rotation = true
+custom_integrator = true
+script = ExtResource("2_ds1e7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Granools/granool5"]
+shape = SubResource("CircleShape2D_in6vt")
+
+[node name="granool6" type="RigidBody2D" parent="Granools"]
+position = Vector2(0, 2)
+collision_layer = 4
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_4k5al")
+gravity_scale = 0.0
+lock_rotation = true
+custom_integrator = true
+script = ExtResource("2_ds1e7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Granools/granool6"]
+shape = SubResource("CircleShape2D_in6vt")
+
+[node name="granool2" type="RigidBody2D" parent="Granools"]
+collision_layer = 4
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_4k5al")
+gravity_scale = 0.0
+lock_rotation = true
+custom_integrator = true
+script = ExtResource("2_ds1e7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Granools/granool2"]
+shape = SubResource("CircleShape2D_in6vt")
+
+[node name="granool3" type="RigidBody2D" parent="Granools"]
+position = Vector2(0, -2)
+collision_layer = 4
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_4k5al")
+gravity_scale = 0.0
+lock_rotation = true
+custom_integrator = true
+script = ExtResource("2_ds1e7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Granools/granool3"]
+shape = SubResource("CircleShape2D_in6vt")
+
+[node name="granool4" type="RigidBody2D" parent="Granools"]
+position = Vector2(0, -3)
+collision_layer = 4
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_4k5al")
+gravity_scale = 0.0
+lock_rotation = true
+custom_integrator = true
+script = ExtResource("2_ds1e7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Granools/granool4"]
 shape = SubResource("CircleShape2D_in6vt")
 
 [connection signal="timeout" from="SendServerTimeTimer" to="." method="_on_send_server_time_timer_timeout"]

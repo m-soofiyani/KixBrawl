@@ -1,0 +1,5 @@
+res://scenes/match.tscn
+res://themes/maintheme.tres
+res://scripts/match.gd
+res://scenes/menu.tscn
+res://scenes/JoyStick.tscn

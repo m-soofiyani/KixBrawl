@@ -30,6 +30,10 @@ window/stretch/mode="viewport"
 
 pointing/emulate_touch_from_mouse=true
 
+[physics]
+
+3d/physics_engine="JoltPhysics3D"
+
 [rendering]
 
 renderer/rendering_method="mobile"
