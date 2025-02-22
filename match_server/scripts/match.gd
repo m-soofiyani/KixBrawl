@@ -1,7 +1,7 @@
 extends Node2D
 
 var enetserver_peer : ENetMultiplayerPeer = ENetMultiplayerPeer.new()
-var port : int = 8081
+var port : int
 var SPEED := 500
 var message : String
 
@@ -16,11 +16,11 @@ var Calculated_Player_States : Dictionary
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
-	#var args = OS.get_cmdline_args()
-	#for i in range(args.size()):
-		#if args[i] == "--port" and i + 1 < args.size():
-			#port = int(args[i + 1])
-			#break
+	var args = OS.get_cmdline_args()
+	for i in range(args.size()):
+		if args[i] == "--port" and i + 1 < args.size():
+			port = int(args[i + 1])
+			break
 	
 	enetserver_peer.create_server(port)
 	multiplayer.set_multiplayer_peer(enetserver_peer)
@@ -42,6 +42,13 @@ func _process(delta: float) -> void:
 					$Players.get_children()[player_index].velocity = Players_States_Collection[Players_id[player_index]]["V"] * delta * SPEED
 					$Players.get_children()[player_index].move_and_slide()
 					$Players.get_children()[player_index].get_node("Area2D").monitoring = Players_States_Collection[Players_id[player_index]]["S"]
+					
+					if Players_States_Collection[Players_id[player_index]]["S"]:
+						if $Players.get_children()[player_index].get_node("ShootTimer").is_stopped():
+							$Players.get_children()[player_index].get_node("ShootTimer").start(1)
+
+							$Players.get_children()[player_index].shoot.rpc_id(Players_id[player_index] , str(Players_id[player_index]))
+
 					if $Players.get_children()[player_index].velocity != $Players.get_children()[player_index].position:
 						var target = $Players.get_children()[player_index].position + $Players.get_children()[player_index].velocity 
 						Calculated_Player_States[Players_id[player_index]]["TR"] = target

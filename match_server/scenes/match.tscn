@@ -48,6 +48,9 @@ collision_mask = 4
 shape = SubResource("RectangleShape2D_2gcdn")
 debug_color = Color(0.583333, 0.7, 0, 0.419608)
 
+[node name="ShootTimer" type="Timer" parent="Players/player1"]
+one_shot = true
+
 [node name="player2" type="CharacterBody2D" parent="Players"]
 position = Vector2(-4, 0)
 collision_layer = 2
@@ -64,6 +67,10 @@ collision_mask = 4
 [node name="ShootCollision2" type="CollisionShape2D" parent="Players/player2/Area2D"]
 shape = SubResource("RectangleShape2D_2gcdn")
 debug_color = Color(0.584314, 0.701961, 0, 0.419608)
+
+[node name="ShootTimer" type="Timer" parent="Players/player2"]
+wait_time = 2.0
+one_shot = true
 
 [node name="Map" type="Node2D" parent="."]
 
@@ -96,7 +103,7 @@ zoom = Vector2(30.855, 30.855)
 [node name="granool" type="RigidBody2D" parent="Granools" groups=["granools"]]
 position = Vector2(0, -1)
 collision_layer = 4
-collision_mask = 13
+collision_mask = 15
 physics_material_override = SubResource("PhysicsMaterial_4k5al")
 gravity_scale = 0.0
 lock_rotation = true
@@ -109,7 +116,7 @@ shape = SubResource("CircleShape2D_in6vt")
 [node name="granool5" type="RigidBody2D" parent="Granools" groups=["granools"]]
 position = Vector2(0, 1)
 collision_layer = 4
-collision_mask = 13
+collision_mask = 15
 physics_material_override = SubResource("PhysicsMaterial_4k5al")
 gravity_scale = 0.0
 lock_rotation = true
@@ -122,7 +129,7 @@ shape = SubResource("CircleShape2D_in6vt")
 [node name="granool6" type="RigidBody2D" parent="Granools" groups=["granools"]]
 position = Vector2(0, 2)
 collision_layer = 4
-collision_mask = 13
+collision_mask = 15
 physics_material_override = SubResource("PhysicsMaterial_4k5al")
 gravity_scale = 0.0
 lock_rotation = true
@@ -134,7 +141,7 @@ shape = SubResource("CircleShape2D_in6vt")
 
 [node name="granool2" type="RigidBody2D" parent="Granools" groups=["granools"]]
 collision_layer = 4
-collision_mask = 13
+collision_mask = 15
 physics_material_override = SubResource("PhysicsMaterial_4k5al")
 gravity_scale = 0.0
 lock_rotation = true
@@ -147,7 +154,7 @@ shape = SubResource("CircleShape2D_in6vt")
 [node name="granool3" type="RigidBody2D" parent="Granools" groups=["granools"]]
 position = Vector2(0, -2)
 collision_layer = 4
-collision_mask = 13
+collision_mask = 15
 physics_material_override = SubResource("PhysicsMaterial_4k5al")
 gravity_scale = 0.0
 lock_rotation = true
@@ -160,7 +167,7 @@ shape = SubResource("CircleShape2D_in6vt")
 [node name="granool4" type="RigidBody2D" parent="Granools" groups=["granools"]]
 position = Vector2(0, -3)
 collision_layer = 4
-collision_mask = 13
+collision_mask = 15
 physics_material_override = SubResource("PhysicsMaterial_4k5al")
 gravity_scale = 0.0
 lock_rotation = true
@@ -173,3 +180,4 @@ shape = SubResource("CircleShape2D_in6vt")
 [connection signal="timeout" from="SendServerTimeTimer" to="." method="_on_send_server_time_timer_timeout"]
 [connection signal="body_shape_entered" from="Players/player1/Area2D" to="Players/player1" method="_on_area_2d_body_shape_entered"]
 [connection signal="body_shape_entered" from="Players/player2/Area2D" to="Players/player2" method="_on_area_2d_body_shape_entered"]
+[connection signal="timeout" from="Players/player2/ShootTimer" to="Players/player2" method="_on_shoot_timer_timeout"]

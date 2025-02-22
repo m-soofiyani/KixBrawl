@@ -30,3 +30,9 @@ func _on_area_2d_body_shape_entered(body_rid: RID, body: Node2D, body_shape_inde
 
 		var direction = get_node("Area2D").global_transform.origin -position
 		body.shoot(direction * 10)
+
+
+
+@rpc("authority")
+func shoot(id):
+	pass

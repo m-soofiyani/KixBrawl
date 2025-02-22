@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://sg5fx7cr4pkv"]
+[gd_scene load_steps=7 format=3 uid="uid://sg5fx7cr4pkv"]
 
 [ext_resource type="Script" path="res://scripts/menu.gd" id="1_34s7g"]
 [ext_resource type="Texture2D" uid="uid://cwwyt1h4awaq7" path="res://textures/menuback.jpg" id="2_ncwej"]
-[ext_resource type="StyleBox" uid="uid://d3iw64kcok1op" path="res://2d_mats/menupanel.tres" id="3_rx072"]
 [ext_resource type="Theme" uid="uid://otyvwcis0mje" path="res://themes/maintheme.tres" id="4_lssds"]
 [ext_resource type="Texture2D" uid="uid://c4dfx48vefivg" path="res://textures/menubackLines.png" id="4_u4m13"]
 
@@ -66,7 +65,6 @@ grow_vertical = 2
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/panel = ExtResource("3_rx072")
 
 [node name="GuestPanel" type="Panel" parent="Back/UserInfo/HBoxContainer"]
 layout_mode = 2

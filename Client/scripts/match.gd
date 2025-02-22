@@ -9,7 +9,7 @@ var speed := 2
 var Players_Ids := []
 var synced_time_ms : int
 var RTT :=0 
-var RenderIntervalFromNow := 40
+var RenderIntervalFromNow := 30
 var time_offset_from_server : int
 var server_ticks_interval : int
 var last_pos_applied_render_time : int
@@ -105,7 +105,7 @@ func _process(delta: float) -> void:
 							var interpolate_factor = inverse_lerp(state_a[key]["T"] , state_b[key]["T"] , synced_time_ms)
 							var interpolated_pos = Vector3(
 								lerp(state_a[key]["P"].x , state_b[key]["P"].x , interpolate_factor),
-								0.5,
+								0.0,
 								lerp(state_a[key]["P"].y , state_b[key]["P"].y , interpolate_factor)
 							)
 							var interpolated_target_pos = Vector3(
@@ -114,10 +114,10 @@ func _process(delta: float) -> void:
 								lerp(state_a[key]["TR"].y , state_b[key]["TR"].y , interpolate_factor)
 							)
 
-							player.position = interpolated_pos
-							if player.position.cross(interpolated_target_pos).length() > .1:
-								player.look_at(interpolated_target_pos)
 							
+							player.look_at_direction(player.position - interpolated_target_pos)
+								
+							player.position = interpolated_pos
 	
 	
 		#applying server calculations for granools
@@ -135,6 +135,11 @@ func _process(delta: float) -> void:
 								0.2,
 								lerp(state_a[key]["P"].y , state_b[key]["P"].y , interpolate_factor)
 							)
+							var interpolated_vel = Vector2(
+								lerp(state_a[key]["V"].x , state_b[key]["V"].x , interpolate_factor),
+								lerp(state_a[key]["V"].y , state_b[key]["V"].y , interpolate_factor)
+							)
+							granool.GeranoolVelocity = interpolated_vel
 							granool.position = interpolated_pos
 func DefinePlayerState():
 	Player_State = { "T" :  Time.get_ticks_msec() , "V" : input_direction , "S" : isShoot}
@@ -157,7 +162,7 @@ func Define_Ids(player_ids):
 	for i in range(player_ids.size()):
 		$Players.get_children()[i].name = str(player_ids[i])
 		Players_Ids.append(player_ids[i])
-	
+		$Players.ids.append(player_ids[i])
 
 func SyncTimeWithServer() -> int:
 	var result : int
@@ -211,8 +216,8 @@ func camerafollowing():
 
 
 func _on_shoot_button_button_up() -> void:
-	isShoot = false
-
-
-func _on_shoot_button_button_down() -> void:
 	isShoot = true
+	if isShoot:
+		$Control/ShootButton.disabled = false
+		await get_tree().create_timer(1).timeout
+		isShoot = false

@@ -1,16 +1,21 @@
-[gd_scene load_steps=37 format=3 uid="uid://dlbgbytnxhug8"]
+[gd_scene load_steps=39 format=3 uid="uid://dlbgbytnxhug8"]
 
 [ext_resource type="Script" path="res://scripts/match.gd" id="1_oytcj"]
 [ext_resource type="PackedScene" uid="uid://llstp8nb4sw" path="res://scenes/JoyStick.tscn" id="2_j27pq"]
 [ext_resource type="PackedScene" uid="uid://cle8x0klh7wl6" path="res://models/wall.glb" id="3_1k3ru"]
 [ext_resource type="PackedScene" uid="uid://br2l7bwxtyjrg" path="res://models/border-corner.glb" id="3_5ochq"]
 [ext_resource type="PackedScene" uid="uid://dktb0605573ng" path="res://models/floor-detail.glb" id="3_63npq"]
+[ext_resource type="Script" path="res://scripts/players.gd" id="3_ht6yk"]
+[ext_resource type="PackedScene" uid="uid://deoa8e058mw2x" path="res://scenes/player.tscn" id="3_q24vu"]
 [ext_resource type="Material" uid="uid://ca60pk8y5w5dj" path="res://materials/granools/1.tres" id="3_qdi6w"]
 [ext_resource type="PackedScene" uid="uid://dc1yw4mnhqatn" path="res://models/border-straight.glb" id="4_1tp27"]
+[ext_resource type="Script" path="res://scripts/granoolbehaivior.gd" id="4_b5nly"]
 [ext_resource type="PackedScene" uid="uid://cp6q1x7sbecwg" path="res://models/floor.glb" id="4_gahmu"]
+[ext_resource type="Material" uid="uid://dmdf26yqimlrc" path="res://materials/character1.tres" id="4_u2bek"]
 [ext_resource type="Material" uid="uid://crs7dcm401al6" path="res://materials/granools/2.tres" id="4_ufk4s"]
 [ext_resource type="PackedScene" uid="uid://cbdbpxq5vd7wj" path="res://models/wall-corner.glb" id="4_vf4r7"]
 [ext_resource type="Material" uid="uid://csllb42qviuaq" path="res://materials/granools/3.tres" id="5_clvly"]
+[ext_resource type="Material" uid="uid://eca345xot0xi" path="res://materials/character2.tres" id="5_eh8sg"]
 [ext_resource type="Material" uid="uid://cw0lc4qd80tqj" path="res://materials/granools/4.tres" id="6_pcf7e"]
 [ext_resource type="Material" uid="uid://sbwgesmub7i5" path="res://materials/granools/5.tres" id="7_b7rwn"]
 [ext_resource type="PackedScene" uid="uid://ckslh2jhq8m3j" path="res://models/column.glb" id="7_rkkki"]
@@ -44,13 +49,6 @@ Button/styles/hover = SubResource("StyleBoxFlat_w7l6v")
 Button/styles/hover_pressed = SubResource("StyleBoxFlat_f7tsq")
 Button/styles/normal = SubResource("StyleBoxFlat_ubbde")
 Button/styles/pressed = SubResource("StyleBoxEmpty_e7qkv")
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_mpori"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_gatbn"]
-size = Vector3(0.3, 0.3, 1)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_iyie1"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_cwunu"]
 radius = 0.2
@@ -170,23 +168,14 @@ position = Vector2(200, 368)
 scale = Vector2(0.5, 0.5)
 
 [node name="Players" type="Node3D" parent="."]
+script = ExtResource("3_ht6yk")
+mats = Array[StandardMaterial3D]([ExtResource("4_u2bek"), ExtResource("5_eh8sg")])
 
-[node name="player1" type="MeshInstance3D" parent="Players"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 0)
-mesh = SubResource("CapsuleMesh_mpori")
+[node name="player1" parent="Players" instance=ExtResource("3_q24vu")]
+transform = Transform3D(-0.5, 0, 7.54979e-08, 0, 0.5, 0, -7.54979e-08, 0, -0.5, -5, 0, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Players/player1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
-mesh = SubResource("BoxMesh_gatbn")
-
-[node name="player2" type="MeshInstance3D" parent="Players"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 0)
-mesh = SubResource("CapsuleMesh_iyie1")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Players/player2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
-mesh = SubResource("BoxMesh_gatbn")
-skeleton = NodePath("../../player1")
+[node name="player2" parent="Players" instance=ExtResource("3_q24vu")]
+transform = Transform3D(-0.5, 0, 7.54979e-08, 0, 0.5, 0, -7.54979e-08, 0, -0.5, 5, 0, 0)
 
 [node name="Granools" type="Node3D" parent="."]
 
@@ -194,31 +183,37 @@ skeleton = NodePath("../../player1")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 material_override = ExtResource("3_qdi6w")
 mesh = SubResource("SphereMesh_cwunu")
+script = ExtResource("4_b5nly")
 
 [node name="granool2" type="MeshInstance3D" parent="Granools"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 material_override = ExtResource("4_ufk4s")
 mesh = SubResource("SphereMesh_cwunu")
+script = ExtResource("4_b5nly")
 
 [node name="granool3" type="MeshInstance3D" parent="Granools"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 material_override = ExtResource("5_clvly")
 mesh = SubResource("SphereMesh_cwunu")
+script = ExtResource("4_b5nly")
 
 [node name="granool4" type="MeshInstance3D" parent="Granools"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 material_override = ExtResource("6_pcf7e")
 mesh = SubResource("SphereMesh_cwunu")
+script = ExtResource("4_b5nly")
 
 [node name="granool5" type="MeshInstance3D" parent="Granools"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 material_override = ExtResource("7_b7rwn")
 mesh = SubResource("SphereMesh_cwunu")
+script = ExtResource("4_b5nly")
 
 [node name="granool6" type="MeshInstance3D" parent="Granools"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 material_override = ExtResource("8_adavu")
 mesh = SubResource("SphereMesh_cwunu")
+script = ExtResource("4_b5nly")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.642788, 0.766044, 0, -0.766044, 0.642788, 0, 120, 100.23)
@@ -1449,6 +1444,5 @@ mesh = SubResource("RibbonTrailMesh_rgjvc")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_nd4m1")
 
-[connection signal="button_down" from="Control/ShootButton" to="." method="_on_shoot_button_button_down"]
 [connection signal="button_up" from="Control/ShootButton" to="." method="_on_shoot_button_button_up"]
 [connection signal="timeout" from="EstimateRTT_Timer" to="." method="_on_estimate_rtt_timer_timeout"]
