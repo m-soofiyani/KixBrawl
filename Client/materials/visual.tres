@@ -109,7 +109,6 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-727.439, 716.223)
 modes/depth_draw = 1
 nodes/fragment/0/position = Vector2(920, 140)
 nodes/fragment/4/node = SubResource("VisualShaderNodeVectorDistance_pmm22")

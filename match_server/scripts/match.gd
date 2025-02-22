@@ -2,7 +2,7 @@ extends Node2D
 
 var enetserver_peer : ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 var port : int = 8081
-var SPEED := 200
+var SPEED := 500
 var message : String
 
 var Players_id : Array
@@ -41,8 +41,15 @@ func _process(delta: float) -> void:
 					Calculated_Player_States[Players_id[player_index]]["T"] = now
 					$Players.get_children()[player_index].velocity = Players_States_Collection[Players_id[player_index]]["V"] * delta * SPEED
 					$Players.get_children()[player_index].move_and_slide()
+					$Players.get_children()[player_index].get_node("Area2D").monitoring = Players_States_Collection[Players_id[player_index]]["S"]
+					if $Players.get_children()[player_index].velocity != $Players.get_children()[player_index].position:
+						var target = $Players.get_children()[player_index].position + $Players.get_children()[player_index].velocity 
+						Calculated_Player_States[Players_id[player_index]]["TR"] = target
+						$Players.get_children()[player_index].look_at(target)
+						
 					Calculated_Player_States[Players_id[player_index]]["P"] = $Players.get_children()[player_index].position
-					
+
+					 
 					
 			for granool in $Granools.get_children():
 				Calculated_Player_States[granool.name]["P"] = granool.position
@@ -64,7 +71,7 @@ func on_peer_connected(id:int):
 		for player_index in Players_id.size():
 			welcome.rpc_id(Players_id[player_index] , "Welcome you added to Players IDS of this match!")
 			$Players.get_children()[player_index].name = str(Players_id[player_index])
-			Calculated_Player_States[Players_id[player_index]] = {"T" : Time.get_ticks_msec() , "P" : $Players.get_children()[player_index].position}
+			Calculated_Player_States[Players_id[player_index]] = {"T" : Time.get_ticks_msec() , "P" : $Players.get_children()[player_index].position , "TR" :Vector2.ZERO - $Players.get_children()[player_index].position }
 			for granool in $Granools.get_children():
 				Calculated_Player_States[granool.name] = {"P" : granool.position , "V" : granool.linear_velocity , "T" : Time.get_ticks_msec()}
 			update_client_state.rpc_id(Players_id[player_index] , Calculated_Player_States)

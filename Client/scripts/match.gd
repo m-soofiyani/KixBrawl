@@ -14,6 +14,7 @@ var time_offset_from_server : int
 var server_ticks_interval : int
 var last_pos_applied_render_time : int
 var cam_tween : Tween
+var isShoot : bool
 ###############################
 var EnetClient : ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 
@@ -107,8 +108,16 @@ func _process(delta: float) -> void:
 								0.5,
 								lerp(state_a[key]["P"].y , state_b[key]["P"].y , interpolate_factor)
 							)
+							var interpolated_target_pos = Vector3(
+								lerp(state_a[key]["TR"].x , state_b[key]["TR"].x , interpolate_factor),
+								0.5,
+								lerp(state_a[key]["TR"].y , state_b[key]["TR"].y , interpolate_factor)
+							)
 
 							player.position = interpolated_pos
+							if player.position.cross(interpolated_target_pos).length() > .1:
+								player.look_at(interpolated_target_pos)
+							
 	
 	
 		#applying server calculations for granools
@@ -128,7 +137,7 @@ func _process(delta: float) -> void:
 							)
 							granool.position = interpolated_pos
 func DefinePlayerState():
-	Player_State = { "T" :  Time.get_ticks_msec() , "V" : input_direction }
+	Player_State = { "T" :  Time.get_ticks_msec() , "V" : input_direction , "S" : isShoot}
 	send_player_state_from_client.rpc_id(1 , Player_State)
 
 
@@ -164,8 +173,8 @@ func SyncTimeWithServer() -> int:
 @rpc("authority" , "reliable")
 func send_time_msec_from_server(time_msec):
 	var now = Time.get_ticks_msec()
-	print("server time : " , time_msec)
-	print("synced_time : " , synced_time_ms)
+	#print("server time : " , time_msec)
+	#print("synced_time : " , synced_time_ms)
 
 	time_offset_from_server = now - time_msec
 	#print("time_offset_from_server : ", time_offset_from_server)
@@ -199,3 +208,11 @@ func camerafollowing():
 
 					
 	
+
+
+func _on_shoot_button_button_up() -> void:
+	isShoot = false
+
+
+func _on_shoot_button_button_down() -> void:
+	isShoot = true

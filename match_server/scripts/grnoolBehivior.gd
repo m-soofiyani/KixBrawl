@@ -6,14 +6,15 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta: float) -> void:
-	if self.linear_velocity.length() < .1:
-		grappble = true
-	
-	else:
-		grappble = false
-		
-	for player in $"../../Players".get_children():
-		if position.distance_to(player.position) < 1 and grappble:
-			print(player.name + "can grab the ball")
+
+## Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _physics_process(delta: float) -> void:
+		#
+	#for player in $"../../Players".get_children():
+		#if self.linear_velocity.length() < .5 and position.distance_to(player.position) < .8:
+			#linear_velocity = (player.position - position) * 10
+		#
+		#else:
+			#return
+func shoot(dir : Vector2):
+	apply_impulse(dir)

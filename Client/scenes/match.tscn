@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://dlbgbytnxhug8"]
+[gd_scene load_steps=37 format=3 uid="uid://dlbgbytnxhug8"]
 
 [ext_resource type="Script" path="res://scripts/match.gd" id="1_oytcj"]
 [ext_resource type="PackedScene" uid="uid://llstp8nb4sw" path="res://scenes/JoyStick.tscn" id="2_j27pq"]
@@ -19,7 +19,38 @@
 [ext_resource type="PackedScene" uid="uid://cbd5mm52rneud" path="res://models/tree.glb" id="10_ymf4t"]
 [ext_resource type="Shader" uid="uid://u8iredkwx4n6" path="res://materials/logoEnglish.tres" id="12_jmu4w"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_rm8m2"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w7l6v"]
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f7tsq"]
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ubbde"]
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e7qkv"]
+
+[sub_resource type="Theme" id="Theme_cnkaq"]
+Button/styles/hover = SubResource("StyleBoxFlat_w7l6v")
+Button/styles/hover_pressed = SubResource("StyleBoxFlat_f7tsq")
+Button/styles/normal = SubResource("StyleBoxFlat_ubbde")
+Button/styles/pressed = SubResource("StyleBoxEmpty_e7qkv")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_mpori"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_gatbn"]
+size = Vector3(0.3, 0.3, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_iyie1"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_cwunu"]
 radius = 0.2
@@ -38,6 +69,31 @@ shader = ExtResource("12_jmu4w")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qfpi4"]
 render_priority = 0
 shader = ExtResource("12_jmu4w")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sx8ny"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.305882)
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_qeydq"]
+material = SubResource("StandardMaterial3D_sx8ny")
+shape = 0
+size = 0.195
+sections = 25
+section_length = 0.278
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_eucgq"]
+material = SubResource("StandardMaterial3D_sx8ny")
+shape = 0
+size = 0.195
+sections = 25
+section_length = 0.278
+
+[sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_rgjvc"]
+material = SubResource("StandardMaterial3D_sx8ny")
+shape = 0
+size = 0.195
+sections = 25
+section_length = 0.7
 
 [sub_resource type="Environment" id="Environment_nd4m1"]
 background_mode = 1
@@ -82,6 +138,31 @@ spot_range = 8.0
 spot_angle = 47.28
 spot_angle_attenuation = 0.267944
 
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ShootButton" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -50.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(3.65, 3.65)
+pivot_offset = Vector2(70, 70)
+theme = SubResource("Theme_cnkaq")
+
 [node name="Inputs" type="Node2D" parent="."]
 
 [node name="MoveJoyStick" parent="Inputs" instance=ExtResource("2_j27pq")]
@@ -91,12 +172,21 @@ scale = Vector2(0.5, 0.5)
 [node name="Players" type="Node3D" parent="."]
 
 [node name="player1" type="MeshInstance3D" parent="Players"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.5, 0)
-mesh = SubResource("BoxMesh_rm8m2")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 0)
+mesh = SubResource("CapsuleMesh_mpori")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Players/player1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+mesh = SubResource("BoxMesh_gatbn")
 
 [node name="player2" type="MeshInstance3D" parent="Players"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.5, 0)
-mesh = SubResource("BoxMesh_rm8m2")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 0)
+mesh = SubResource("CapsuleMesh_iyie1")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Players/player2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+mesh = SubResource("BoxMesh_gatbn")
+skeleton = NodePath("../../player1")
 
 [node name="Granools" type="Node3D" parent="."]
 
@@ -310,15 +400,19 @@ transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -9.499
 
 [node name="column2" parent="Map/Tiles" instance=ExtResource("7_rkkki")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.75, 0, 3)
+visible = false
 
 [node name="column3" parent="Map/Tiles" instance=ExtResource("7_rkkki")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.75, 0, -3)
+visible = false
 
 [node name="column4" parent="Map/Tiles" instance=ExtResource("7_rkkki")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.75, 0, -3)
+visible = false
 
 [node name="column5" parent="Map/Tiles" instance=ExtResource("7_rkkki")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.75, 0, 3)
+visible = false
 
 [node name="wall2" parent="Map/Tiles" instance=ExtResource("3_1k3ru")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, -4)
@@ -1330,7 +1424,31 @@ transform = Transform3D(2.205, 0, 0, 0, 2.205, 0, 0, 0, 2.205, 6, 1.207, -3.679)
 material_override = SubResource("ShaderMaterial_qfpi4")
 mesh = SubResource("QuadMesh_im3f7")
 
+[node name="Lines" type="Node3D" parent="Map"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Map/Lines"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.03, 0)
+mesh = SubResource("RibbonTrailMesh_qeydq")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Map/Lines"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -8.7, 0.03, 0)
+mesh = SubResource("RibbonTrailMesh_eucgq")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Map/Lines"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 8.7, 0.03, 0)
+mesh = SubResource("RibbonTrailMesh_eucgq")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Map/Lines"]
+transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, 0, 0.03, -3.4)
+mesh = SubResource("RibbonTrailMesh_rgjvc")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Map/Lines"]
+transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, 0, 0.03, 3.5)
+mesh = SubResource("RibbonTrailMesh_rgjvc")
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_nd4m1")
 
+[connection signal="button_down" from="Control/ShootButton" to="." method="_on_shoot_button_button_down"]
+[connection signal="button_up" from="Control/ShootButton" to="." method="_on_shoot_button_button_up"]
 [connection signal="timeout" from="EstimateRTT_Timer" to="." method="_on_estimate_rtt_timer_timeout"]
