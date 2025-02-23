@@ -48,7 +48,7 @@ function = 0
 
 [resource]
 code = "shader_type spatial;
-render_mode blend_add, depth_draw_opaque, cull_back, diffuse_lambert_wrap, specular_schlick_ggx;
+render_mode blend_add, depth_draw_opaque, cull_back, diffuse_lambert_wrap, specular_schlick_ggx, unshaded;
 
 uniform sampler2D tex_frg_2 : source_color;
 uniform sampler2D tex_frg_12 : source_color;
@@ -93,15 +93,46 @@ void fragment() {
 	vec3 n_out13p0 = mix(vec3(n_out2p0.xyz), vec3(n_out12p0.xyz), vec3(n_out21p0));
 
 
+// Input:7
+	float n_out7p0 = TIME;
+
+
+// Input:5
+	vec3 n_out5p0 = NODE_POSITION_WORLD;
+
+
+// VectorDecompose:6
+	float n_out6p0 = n_out5p0.x;
+	float n_out6p1 = n_out5p0.y;
+	float n_out6p2 = n_out5p0.z;
+
+
+// MultiplyAdd:11
+	float n_in11p1 = 10.00000;
+	float n_out11p0 = fma(n_out7p0, n_in11p1, n_out6p0);
+
+
+// FloatFunc:9
+	float n_out9p0 = sin(n_out11p0);
+
+
+// Clamp:10
+	float n_in10p1 = 0.00000;
+	float n_in10p2 = 1.00000;
+	float n_out10p0 = clamp(n_out9p0, n_in10p1, n_in10p2);
+
+
 // Output:0
 	ALBEDO = n_out13p0;
+	ALPHA = n_out10p0;
 
 
 }
 "
-graph_offset = Vector2(-404.598, -31.6038)
 modes/blend = 1
 modes/diffuse = 1
+flags/unshaded = true
+nodes/fragment/0/position = Vector2(580, 160)
 nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_08oi5")
 nodes/fragment/2/position = Vector2(-960, -80)
 nodes/fragment/5/node = SubResource("VisualShaderNodeInput_0wgga")
@@ -130,4 +161,4 @@ nodes/fragment/20/node = SubResource("VisualShaderNodeFloatOp_cadri")
 nodes/fragment/20/position = Vector2(-400, 600)
 nodes/fragment/21/node = SubResource("VisualShaderNodeClamp_ui4ws")
 nodes/fragment/21/position = Vector2(0, 500)
-nodes/fragment/connections = PackedInt32Array(9, 0, 10, 0, 7, 0, 11, 0, 11, 0, 9, 0, 6, 0, 11, 2, 5, 0, 6, 0, 2, 0, 13, 0, 12, 0, 13, 1, 14, 0, 16, 0, 13, 0, 0, 0, 16, 0, 15, 0, 15, 0, 20, 0, 21, 0, 13, 2, 20, 0, 21, 0)
+nodes/fragment/connections = PackedInt32Array(9, 0, 10, 0, 7, 0, 11, 0, 11, 0, 9, 0, 6, 0, 11, 2, 5, 0, 6, 0, 2, 0, 13, 0, 12, 0, 13, 1, 14, 0, 16, 0, 13, 0, 0, 0, 16, 0, 15, 0, 15, 0, 20, 0, 20, 0, 21, 0, 21, 0, 13, 2, 10, 0, 0, 1)

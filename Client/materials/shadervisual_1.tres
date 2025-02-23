@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://dt20rvps1nabo"]
+
+[ext_resource type="Shader" uid="uid://6x53eyowxyqj" path="res://materials/outline.tres" id="1_fhd3s"]
+[ext_resource type="Shader" uid="uid://dnkk63wpse0vl" path="res://materials/shadervisual_1_graph.tres" id="1_kbsic"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mi1xu"]
+render_priority = 0
+shader = ExtResource("1_fhd3s")
+
+[resource]
+render_priority = 1
+next_pass = SubResource("ShaderMaterial_mi1xu")
+shader = ExtResource("1_kbsic")

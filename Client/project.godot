@@ -13,7 +13,9 @@ config_version=5
 config/name="Client"
 run/main_scene="res://scenes/menu.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
-config/icon="res://icon.svg"
+run/max_fps=120
+run/low_processor_mode=true
+config/icon="res://textures/icon.png"
 
 [autoload]
 
@@ -25,6 +27,7 @@ Peers="*res://scripts/PEERS.gd"
 window/size/viewport_width=1280
 window/size/viewport_height=540
 window/stretch/mode="viewport"
+window/vsync/vsync_mode=0
 
 [input_devices]
 
@@ -32,8 +35,9 @@ pointing/emulate_touch_from_mouse=true
 
 [physics]
 
-3d/physics_engine="JoltPhysics3D"
+3d/run_on_separate_thread=true
 
 [rendering]
 
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true

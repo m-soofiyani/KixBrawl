@@ -48,12 +48,12 @@ func shoot(id):
 	Shooting = true
 	if id == self.name and Shooting:
 		state_machine.travel("Shoot")
-		var _tween = create_tween()
+		#var _tween = create_tween()
 		var rand_rot = randf()
 		var target_rot = rotation_degrees.y + 360
 
 
-		await _tween.tween_property(self , "rotation_degrees:y" , target_rot , .3).finished
+		#await _tween.tween_property(self , "rotation_degrees:y" , target_rot , .3).finished
 		await get_tree().create_timer(1).timeout
 		Shooting = false
 		

@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://dlbgbytnxhug8"]
+[gd_scene load_steps=38 format=3 uid="uid://dlbgbytnxhug8"]
 
 [ext_resource type="Script" path="res://scripts/match.gd" id="1_oytcj"]
 [ext_resource type="PackedScene" uid="uid://llstp8nb4sw" path="res://scenes/JoyStick.tscn" id="2_j27pq"]
@@ -11,11 +11,11 @@
 [ext_resource type="PackedScene" uid="uid://dc1yw4mnhqatn" path="res://models/border-straight.glb" id="4_1tp27"]
 [ext_resource type="Script" path="res://scripts/granoolbehaivior.gd" id="4_b5nly"]
 [ext_resource type="PackedScene" uid="uid://cp6q1x7sbecwg" path="res://models/floor.glb" id="4_gahmu"]
-[ext_resource type="Material" uid="uid://dmdf26yqimlrc" path="res://materials/character1.tres" id="4_u2bek"]
+[ext_resource type="Material" uid="uid://dt20rvps1nabo" path="res://materials/shadervisual_1.tres" id="4_qcd28"]
 [ext_resource type="Material" uid="uid://crs7dcm401al6" path="res://materials/granools/2.tres" id="4_ufk4s"]
 [ext_resource type="PackedScene" uid="uid://cbdbpxq5vd7wj" path="res://models/wall-corner.glb" id="4_vf4r7"]
 [ext_resource type="Material" uid="uid://csllb42qviuaq" path="res://materials/granools/3.tres" id="5_clvly"]
-[ext_resource type="Material" uid="uid://eca345xot0xi" path="res://materials/character2.tres" id="5_eh8sg"]
+[ext_resource type="Material" uid="uid://dqabr3hu8oe44" path="res://materials/shadervisual_2.tres" id="5_dvy6o"]
 [ext_resource type="Material" uid="uid://cw0lc4qd80tqj" path="res://materials/granools/4.tres" id="6_pcf7e"]
 [ext_resource type="Material" uid="uid://sbwgesmub7i5" path="res://materials/granools/5.tres" id="7_b7rwn"]
 [ext_resource type="PackedScene" uid="uid://ckslh2jhq8m3j" path="res://models/column.glb" id="7_rkkki"]
@@ -25,18 +25,21 @@
 [ext_resource type="Shader" uid="uid://u8iredkwx4n6" path="res://materials/logoEnglish.tres" id="12_jmu4w"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w7l6v"]
+bg_color = Color(0.6, 0.6, 0.6, 0.603922)
 corner_radius_top_left = 40
 corner_radius_top_right = 40
 corner_radius_bottom_right = 40
 corner_radius_bottom_left = 40
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f7tsq"]
+bg_color = Color(0.6, 0.6, 0.6, 0.572549)
 corner_radius_top_left = 40
 corner_radius_top_right = 40
 corner_radius_bottom_right = 40
 corner_radius_bottom_left = 40
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ubbde"]
+bg_color = Color(0.6, 0.6, 0.6, 0.392157)
 corner_radius_top_left = 40
 corner_radius_top_right = 40
 corner_radius_bottom_right = 40
@@ -70,6 +73,7 @@ shader = ExtResource("12_jmu4w")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sx8ny"]
 transparency = 1
+shading_mode = 0
 albedo_color = Color(1, 1, 1, 0.305882)
 
 [sub_resource type="RibbonTrailMesh" id="RibbonTrailMesh_qeydq"]
@@ -93,22 +97,17 @@ size = 0.195
 sections = 25
 section_length = 0.7
 
-[sub_resource type="Environment" id="Environment_nd4m1"]
-background_mode = 1
-background_color = Color(0.513474, 0.398193, 0.353353, 1)
-reflected_light_source = 2
-tonemap_mode = 2
-tonemap_exposure = 1.1
-
 [node name="Match" type="Node3D"]
 script = ExtResource("1_oytcj")
 
 [node name="Lights" type="Node3D" parent="."]
+visible = false
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Lights"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 6, 0)
+visible = false
 light_color = Color(0.85, 0.75, 1, 1)
-light_energy = 6.468
+light_energy = 9.81
 light_size = 0.051
 shadow_enabled = true
 shadow_blur = 7.73
@@ -117,20 +116,19 @@ spot_angle_attenuation = 0.267944
 
 [node name="SpotLight3D2" type="SpotLight3D" parent="Lights"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -5, 6, 0)
+visible = false
 light_color = Color(0.85, 0.75, 1, 1)
-light_energy = 6.468
+light_energy = 9.81
 light_size = 0.051
-shadow_enabled = true
 shadow_blur = 7.73
 spot_range = 8.0
 spot_angle_attenuation = 0.267944
 
 [node name="SpotLight3D3" type="SpotLight3D" parent="Lights"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 5, 6, 0)
-light_color = Color(0.85, 0.75, 1, 1)
-light_energy = 6.468
+visible = false
+light_energy = 9.81
 light_size = 0.051
-shadow_enabled = true
 shadow_blur = 7.73
 spot_range = 8.0
 spot_angle = 47.28
@@ -169,10 +167,10 @@ scale = Vector2(0.5, 0.5)
 
 [node name="Players" type="Node3D" parent="."]
 script = ExtResource("3_ht6yk")
-mats = Array[StandardMaterial3D]([ExtResource("4_u2bek"), ExtResource("5_eh8sg")])
+mats = Array[ShaderMaterial]([ExtResource("4_qcd28"), ExtResource("5_dvy6o")])
 
 [node name="player1" parent="Players" instance=ExtResource("3_q24vu")]
-transform = Transform3D(-0.5, 0, 7.54979e-08, 0, 0.5, 0, -7.54979e-08, 0, -0.5, -5, 0, 0)
+transform = Transform3D(-0.5, 0, 7.45058e-08, 0, 0.5, 0, -7.45058e-08, 0, -0.5, -5, 0, 0)
 
 [node name="player2" parent="Players" instance=ExtResource("3_q24vu")]
 transform = Transform3D(-0.5, 0, 7.54979e-08, 0, 0.5, 0, -7.54979e-08, 0, -0.5, 5, 0, 0)
@@ -1440,9 +1438,6 @@ mesh = SubResource("RibbonTrailMesh_rgjvc")
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="Map/Lines"]
 transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, 0, 0.03, 3.5)
 mesh = SubResource("RibbonTrailMesh_rgjvc")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_nd4m1")
 
 [connection signal="button_up" from="Control/ShootButton" to="." method="_on_shoot_button_button_up"]
 [connection signal="timeout" from="EstimateRTT_Timer" to="." method="_on_estimate_rtt_timer_timeout"]

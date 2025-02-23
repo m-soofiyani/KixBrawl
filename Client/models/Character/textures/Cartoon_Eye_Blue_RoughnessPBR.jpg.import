@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bcjtug1uqpj35"
 path.s3tc="res://.godot/imported/Cartoon_Eye_Blue_RoughnessPBR.jpg-215b5624b8551d7673ac64cd19fe3283.s3tc.ctex"
+path.etc2="res://.godot/imported/Cartoon_Eye_Blue_RoughnessPBR.jpg-215b5624b8551d7673ac64cd19fe3283.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://models/Character/textures/Cartoon_Eye_Blue_RoughnessPBR.jpg"
-dest_files=["res://.godot/imported/Cartoon_Eye_Blue_RoughnessPBR.jpg-215b5624b8551d7673ac64cd19fe3283.s3tc.ctex"]
+dest_files=["res://.godot/imported/Cartoon_Eye_Blue_RoughnessPBR.jpg-215b5624b8551d7673ac64cd19fe3283.s3tc.ctex", "res://.godot/imported/Cartoon_Eye_Blue_RoughnessPBR.jpg-215b5624b8551d7673ac64cd19fe3283.etc2.ctex"]
 
 [params]
 

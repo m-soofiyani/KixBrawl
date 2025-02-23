@@ -1,7 +1,7 @@
 extends Node3D
 
 var ids = []
-@export var  mats: Array[StandardMaterial3D]
+@export var  mats: Array[ShaderMaterial]
 signal ids_full
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -15,7 +15,7 @@ func _ready() -> void:
 		#ids_full.emit()
 
 func on_ids_full():
-	if !ids.is_empty():
-		for player in get_children():
-			player.get_node("AnimationGame/Rig/Skeleton3D/RETOPO_MODIF").material_override = mats[ids.rfind(player.name.to_int())]
+
+	for player in get_children():
+		player.get_node("AnimationGame/Rig/Skeleton3D/RETOPO_MODIF").material_override = mats[ids.rfind(player.name.to_int())]
  

@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://dqabr3hu8oe44"]
+
+[ext_resource type="Shader" uid="uid://6x53eyowxyqj" path="res://materials/outline.tres" id="1_dgstu"]
+[ext_resource type="Shader" uid="uid://nwggdupoik2q" path="res://materials/shadervisual_2_graph.tres" id="1_m3m7t"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4lmte"]
+render_priority = 0
+shader = ExtResource("1_dgstu")
+
+[resource]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_4lmte")
+shader = ExtResource("1_m3m7t")

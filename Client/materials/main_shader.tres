@@ -1,10 +1,16 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bfpui60edk0io"]
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://bfpui60edk0io"]
 
 [ext_resource type="Texture2D" uid="uid://devm6j8fy2bkx" path="res://textures/colormap.png" id="1_og1b8"]
+[ext_resource type="Shader" uid="uid://6x53eyowxyqj" path="res://materials/outline.tres" id="2_2bglc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_loisd"]
+render_priority = 0
+shader = ExtResource("2_2bglc")
 
 [resource]
+next_pass = SubResource("ShaderMaterial_loisd")
+shading_mode = 0
 albedo_texture = ExtResource("1_og1b8")
-roughness = 0.76
 billboard_keep_scale = true
 grow_amount = -0.632
 proximity_fade_distance = 0.01

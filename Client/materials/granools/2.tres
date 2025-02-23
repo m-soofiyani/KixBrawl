@@ -1,7 +1,13 @@
-[gd_resource type="StandardMaterial3D" format=3 uid="uid://crs7dcm401al6"]
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://crs7dcm401al6"]
+
+[ext_resource type="Shader" uid="uid://6x53eyowxyqj" path="res://materials/outline.tres" id="1_hpso2"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dfrik"]
+render_priority = 0
+shader = ExtResource("1_hpso2")
 
 [resource]
+next_pass = SubResource("ShaderMaterial_dfrik")
+shading_mode = 0
+diffuse_mode = 3
 albedo_color = Color(1, 0, 0, 1)
-roughness = 0.2
-rim_enabled = true
-rim_tint = 0.24
