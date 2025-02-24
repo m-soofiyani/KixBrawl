@@ -3,6 +3,7 @@ extends Node2D
 @export var joy_direction : Vector2
 @export var ismoving : bool
 @export var LeftOrRight :type
+const window_width := 1280.0
 var targeting : bool
 enum type {
 	left,
@@ -20,7 +21,7 @@ func _input(event):
 	#if event is InputEventScreenTouch and event.is_pressed():
 	if event is InputEventScreenDrag:
 		if LeftOrRight == type.left:
-			if event.position.x < DisplayServer.window_get_size(0).x/2:
+			if event.position.x < window_width/2:
 				var origin = $Joyframe.position
 				
 				var distance = origin.distance_to((event.position - self.position))
@@ -34,7 +35,7 @@ func _input(event):
 				
 				
 		if LeftOrRight == type.right:
-			if event.position.x > DisplayServer.window_get_size(0).x/2:
+			if event.position.x > window_width/2:
 				if !targeting:
 					targeting = true
 					target.emit()

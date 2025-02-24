@@ -1,6 +1,7 @@
-[gd_scene load_steps=38 format=3 uid="uid://dlbgbytnxhug8"]
+[gd_scene load_steps=40 format=3 uid="uid://dlbgbytnxhug8"]
 
 [ext_resource type="Script" path="res://scripts/match.gd" id="1_oytcj"]
+[ext_resource type="Texture2D" uid="uid://bp4m8es3plmy2" path="res://sprites/joystick.svg" id="2_3trry"]
 [ext_resource type="PackedScene" uid="uid://llstp8nb4sw" path="res://scenes/JoyStick.tscn" id="2_j27pq"]
 [ext_resource type="PackedScene" uid="uid://cle8x0klh7wl6" path="res://models/wall.glb" id="3_1k3ru"]
 [ext_resource type="PackedScene" uid="uid://br2l7bwxtyjrg" path="res://models/border-corner.glb" id="3_5ochq"]
@@ -23,6 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://pqrlfntwn1yj" path="res://models/banner.glb" id="10_kfge0"]
 [ext_resource type="PackedScene" uid="uid://cbd5mm52rneud" path="res://models/tree.glb" id="10_ymf4t"]
 [ext_resource type="Shader" uid="uid://u8iredkwx4n6" path="res://materials/logoEnglish.tres" id="12_jmu4w"]
+[ext_resource type="PackedScene" uid="uid://dr2njufxddw18" path="res://models/soccer_goal.glb" id="24_t548k"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w7l6v"]
 bg_color = Color(0.6, 0.6, 0.6, 0.603922)
@@ -158,6 +160,10 @@ grow_vertical = 0
 scale = Vector2(3.65, 3.65)
 pivot_offset = Vector2(70, 70)
 theme = SubResource("Theme_cnkaq")
+icon = ExtResource("2_3trry")
+flat = true
+alignment = 0
+expand_icon = true
 
 [node name="Inputs" type="Node2D" parent="."]
 
@@ -1438,6 +1444,14 @@ mesh = SubResource("RibbonTrailMesh_rgjvc")
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="Map/Lines"]
 transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, 0, 0.03, 3.5)
 mesh = SubResource("RibbonTrailMesh_rgjvc")
+
+[node name="PlayerGoals" type="Node3D" parent="."]
+
+[node name="Sketchfab_Scene" parent="PlayerGoals" instance=ExtResource("24_t548k")]
+transform = Transform3D(0.021, 0, 0, 0, 0.018, 0, 0, 0, 0.035, -7.5, 0, 0)
+
+[node name="Sketchfab_Scene2" parent="PlayerGoals" instance=ExtResource("24_t548k")]
+transform = Transform3D(-0.021, 0, -5.28485e-09, 0, 0.018, 0, 3.17091e-09, 0, -0.035, 7.5, 0, 0)
 
 [connection signal="button_up" from="Control/ShootButton" to="." method="_on_shoot_button_button_up"]
 [connection signal="timeout" from="EstimateRTT_Timer" to="." method="_on_estimate_rtt_timer_timeout"]

@@ -116,7 +116,8 @@ func _process(delta: float) -> void:
 
 							
 							player.look_at_direction(player.position - interpolated_target_pos)
-								
+
+							player.Change_anim(state_b[key]["A"])
 							player.position = interpolated_pos
 	
 	
@@ -218,6 +219,9 @@ func camerafollowing():
 func _on_shoot_button_button_up() -> void:
 	isShoot = true
 	if isShoot:
-		$Control/ShootButton.disabled = false
-		await get_tree().create_timer(1).timeout
-		isShoot = false
+		for player in $Players.get_children():
+			if player.name.to_int() == multiplayer.get_unique_id():
+				player.Change_anim(player.ANIMS.SHOOT)
+				$Control/ShootButton.disabled = false
+				await get_tree().create_timer(1).timeout
+				isShoot = false

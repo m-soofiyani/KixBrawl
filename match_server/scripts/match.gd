@@ -21,7 +21,7 @@ func _ready() -> void:
 		if args[i] == "--port" and i + 1 < args.size():
 			port = int(args[i + 1])
 			break
-	#
+	
 	enetserver_peer.create_server(port)
 	multiplayer.set_multiplayer_peer(enetserver_peer)
 	print("Match Server Starts on port : " + str(port))
@@ -39,29 +39,39 @@ func _process(delta: float) -> void:
 			if Players_States_Collection.has(Players_id[player_index]):
 				if Calculated_Player_States.has(Players_id[player_index]):
 					Calculated_Player_States[Players_id[player_index]]["T"] = now
+					
 					$Players.get_children()[player_index].velocity = Players_States_Collection[Players_id[player_index]]["V"] * delta * SPEED
 					$Players.get_children()[player_index].move_and_slide()
 					$Players.get_children()[player_index].get_node("Area2D").monitoring = Players_States_Collection[Players_id[player_index]]["S"]
 					
+						
+						
 					if Players_States_Collection[Players_id[player_index]]["S"]:
-						if $Players.get_children()[player_index].get_node("ShootTimer").is_stopped():
-							$Players.get_children()[player_index].get_node("ShootTimer").start(1)
 
-							$Players.get_children()[player_index].shoot.rpc_id(Players_id[player_index] , str(Players_id[player_index]))
+						$Players.get_children()[player_index].isShooting = true
+						
+					else:
+						$Players.get_children()[player_index].isShooting = false
 
-					if $Players.get_children()[player_index].velocity != $Players.get_children()[player_index].position:
-						var target = $Players.get_children()[player_index].position + $Players.get_children()[player_index].velocity 
+							
+					Calculated_Player_States[Players_id[player_index]]["A"] = $Players.get_children()[player_index].current_anim
+					
+					if Players_States_Collection[Players_id[player_index]]["V"] != Vector2.ZERO:
+						var target = $Players.get_children()[player_index].position + Players_States_Collection[Players_id[player_index]]["V"]
 						Calculated_Player_States[Players_id[player_index]]["TR"] = target
 						$Players.get_children()[player_index].look_at(target)
+
 						
 					Calculated_Player_States[Players_id[player_index]]["P"] = $Players.get_children()[player_index].position
 
 					 
 					
 			for granool in $Granools.get_children():
+				
 				Calculated_Player_States[granool.name]["P"] = granool.position
 				Calculated_Player_States[granool.name]["V"] = granool.linear_velocity
 				Calculated_Player_States[granool.name]["T"] = now
+				
 			update_client_state.rpc_id(Players_id[player_index] , Calculated_Player_States)
 
 
@@ -78,7 +88,8 @@ func on_peer_connected(id:int):
 		for player_index in Players_id.size():
 			welcome.rpc_id(Players_id[player_index] , "Welcome you added to Players IDS of this match!")
 			$Players.get_children()[player_index].name = str(Players_id[player_index])
-			Calculated_Player_States[Players_id[player_index]] = {"T" : Time.get_ticks_msec() , "P" : $Players.get_children()[player_index].position , "TR" :Vector2.ZERO - $Players.get_children()[player_index].position }
+
+			Calculated_Player_States[Players_id[player_index]] = {"T" : Time.get_ticks_msec() , "P" : $Players.get_children()[player_index].position , "TR" :Vector2.ZERO - $Players.get_children()[player_index].position , "A" : 1 }
 			for granool in $Granools.get_children():
 				Calculated_Player_States[granool.name] = {"P" : granool.position , "V" : granool.linear_velocity , "T" : Time.get_ticks_msec()}
 			update_client_state.rpc_id(Players_id[player_index] , Calculated_Player_States)

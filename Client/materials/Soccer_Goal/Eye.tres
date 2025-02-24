@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://dmdf26yqimlrc"]
+
+[ext_resource type="Texture2D" uid="uid://dnkxdnfykbt0s" path="res://textures/Cartoon_Eye_Blue_BaseColorEdit.jpg" id="1_1a7ld"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gusp3"]
+
+[resource]
+next_pass = SubResource("ShaderMaterial_gusp3")
+shading_mode = 0
+albedo_texture = ExtResource("1_1a7ld")
