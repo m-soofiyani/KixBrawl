@@ -9,7 +9,7 @@ var speed := 2
 var Players_Ids := []
 var synced_time_ms : int
 var RTT :=0 
-var RenderIntervalFromNow := 30
+var RenderIntervalFromNow := 100
 var time_offset_from_server : int
 var server_ticks_interval : int
 var last_pos_applied_render_time : int
