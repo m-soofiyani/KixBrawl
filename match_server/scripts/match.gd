@@ -1,7 +1,7 @@
 extends Node2D
 
 var enetserver_peer : ENetMultiplayerPeer = ENetMultiplayerPeer.new()
-var port : int = 8081
+var port : int
 var SPEED := 100
 var message : String
 
@@ -30,7 +30,7 @@ func _ready() -> void:
 	multiplayer.peer_disconnected.connect(on_peer_disconnected)
 
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	
 		
 	if Players_id.size() > 1:
