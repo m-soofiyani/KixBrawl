@@ -6,7 +6,7 @@ operator = 2
 
 [sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_hfhpy"]
 output_port_for_preview = 0
-input_name = "node_position_world"
+input_name = "node_position_view"
 
 [sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_3jkc5"]
 default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(0.5, 0.865, 0.5)]

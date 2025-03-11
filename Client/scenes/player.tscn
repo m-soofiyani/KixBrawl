@@ -1,7 +1,7 @@
 [gd_scene load_steps=47 format=4 uid="uid://deoa8e058mw2x"]
 
 [ext_resource type="Texture2D" uid="uid://bcjtug1uqpj35" path="res://models/Character/textures/Cartoon_Eye_Blue_RoughnessPBR.jpg" id="1_0an7c"]
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_twvej"]
+[ext_resource type="Script" uid="uid://bmg1n5a1t1eey" path="res://scripts/player.gd" id="1_twvej"]
 [ext_resource type="Texture2D" uid="uid://bxtl7eia2ukrn" path="res://models/Character/textures/KixMax_Base_color.png" id="2_1q2ul"]
 [ext_resource type="Animation" uid="uid://cn4pmp4lcjymy" path="res://models/Character/Anims/BackWard.res" id="2_j338o"]
 [ext_resource type="Material" uid="uid://dmdf26yqimlrc" path="res://materials/Soccer_Goal/Eye.tres" id="3_07x4w"]
@@ -357,17 +357,17 @@ blend_shape_mode = 0
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_h8fnb"]
 _data = {
-"BackWard": ExtResource("2_j338o"),
-"BendWaist": ExtResource("3_r7urn"),
-"Forward": ExtResource("4_2scr5"),
-"HeadShake": ExtResource("6_kqpva"),
-"HeadShake2": ExtResource("5_03wpw"),
-"Idle": ExtResource("7_l6wos"),
-"Jump": ExtResource("8_tycr5"),
-"RunFoots": ExtResource("9_rtdyc"),
-"Shoot": ExtResource("10_udepg"),
-"StopRun": ExtResource("11_umvln"),
-"Walking": ExtResource("12_jqj5t")
+&"BackWard": ExtResource("2_j338o"),
+&"BendWaist": ExtResource("3_r7urn"),
+&"Forward": ExtResource("4_2scr5"),
+&"HeadShake": ExtResource("6_kqpva"),
+&"HeadShake2": ExtResource("5_03wpw"),
+&"Idle": ExtResource("7_l6wos"),
+&"Jump": ExtResource("8_tycr5"),
+&"RunFoots": ExtResource("9_rtdyc"),
+&"Shoot": ExtResource("10_udepg"),
+&"StopRun": ExtResource("11_umvln"),
+&"Walking": ExtResource("12_jqj5t")
 }
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_l27x7"]
@@ -451,7 +451,7 @@ bones/0/name = "Hip"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, 1.42109e-14, -2.38419e-07, -8.00516e-08, 0.941947, -0.335761, 2.24578e-07, 0.335761, 0.941947, 6.02346e-17, 0.271273, -0.180351)
 bones/0/enabled = true
-bones/0/position = Vector3(0.13831, 0.622596, -0.516034)
+bones/0/position = Vector3(0.13831, 0.674949, -0.516034)
 bones/0/rotation = Quaternion(0.415619, -1.08425e-07, -4.95456e-08, 0.909539)
 bones/0/scale = Vector3(1, 1, 1)
 bones/1/name = "waist"
@@ -459,14 +459,14 @@ bones/1/parent = 0
 bones/1/rest = Transform3D(1, -4.61995e-08, -4.51904e-09, 4.61995e-08, 0.981046, 0.193775, -4.5189e-09, -0.193775, 0.981046, 5.04324e-16, 0.577078, 3.53903e-08)
 bones/1/enabled = true
 bones/1/position = Vector3(5.04324e-16, 0.577078, 3.53903e-08)
-bones/1/rotation = Quaternion(-0.0826554, -0.046447, 0.00350354, 0.995489)
+bones/1/rotation = Quaternion(-0.0983681, -0.0324731, 0.00121676, 0.994619)
 bones/1/scale = Vector3(1, 1, 1)
 bones/2/name = "chest"
 bones/2/parent = 1
 bones/2/rest = Transform3D(1, -5.74993e-08, 4.698e-07, -5.74993e-08, 0.970483, 0.24117, -4.698e-07, -0.24117, 0.970483, 1.72904e-15, 0.530273, 1.49012e-08)
 bones/2/enabled = true
 bones/2/position = Vector3(1.72904e-15, 0.530273, 1.49012e-08)
-bones/2/rotation = Quaternion(-0.1068, -0.046348, 0.00463016, 0.993189)
+bones/2/rotation = Quaternion(-0.122487, -0.0324338, 0.00200478, 0.991938)
 bones/2/scale = Vector3(1, 1, 1)
 bones/3/name = "head"
 bones/3/parent = 2
@@ -529,7 +529,7 @@ bones/11/parent = 3
 bones/11/rest = Transform3D(1, -1.27055e-21, 1.36155e-14, 8.3945e-15, 0.787323, -0.616541, -1.07198e-14, 0.616541, 0.787323, 0.224772, 0.80616, 0.248797)
 bones/11/enabled = true
 bones/11/position = Vector3(0.224772, 0.80616, 0.248797)
-bones/11/rotation = Quaternion(0.0115687, -0.754501, -0.653607, 0.0582447)
+bones/11/rotation = Quaternion(0.0187494, -0.715937, -0.697185, 0.0318717)
 bones/11/scale = Vector3(1, 1, 1)
 bones/12/name = "Cartoon Blue Eye.003"
 bones/12/parent = 11
@@ -557,7 +557,7 @@ bones/15/parent = 3
 bones/15/rest = Transform3D(1, -1.27055e-21, 1.36155e-14, 8.3945e-15, 0.787323, -0.616541, -1.07198e-14, 0.616541, 0.787323, -0.224772, 0.80616, 0.248797)
 bones/15/enabled = true
 bones/15/position = Vector3(-0.224772, 0.80616, 0.248797)
-bones/15/rotation = Quaternion(0.0110771, -0.746094, -0.663207, 0.0581151)
+bones/15/rotation = Quaternion(0.0183592, -0.710379, -0.702846, 0.0321163)
 bones/15/scale = Vector3(1, 1, 1)
 bones/16/name = "Cartoon Blue Eye.002"
 bones/16/parent = 15
@@ -620,21 +620,21 @@ bones/24/parent = 23
 bones/24/rest = Transform3D(0.754167, 0.454757, -0.473738, -0.613793, 0.744594, -0.262367, 0.233429, 0.488646, 0.840676, 7.45058e-09, 0.544531, 1.21072e-08)
 bones/24/enabled = true
 bones/24/position = Vector3(7.45058e-09, 0.544531, 1.21072e-08)
-bones/24/rotation = Quaternion(-0.161608, 0.228963, -0.781682, 0.557165)
+bones/24/rotation = Quaternion(-0.147339, 0.24033, -0.796932, 0.534259)
 bones/24/scale = Vector3(1, 1, 1)
 bones/25/name = "downleg.l"
 bones/25/parent = 24
 bones/25/rest = Transform3D(0.979624, 0.116026, 0.163934, -0.06294, -0.597772, 0.799192, 0.190722, -0.793226, -0.578289, -5.96046e-08, 0.635321, -8.75443e-08)
 bones/25/enabled = true
 bones/25/position = Vector3(-5.96046e-08, 0.635321, -8.75443e-08)
-bones/25/rotation = Quaternion(0.842959, 0.105298, 0.140643, -0.50848)
+bones/25/rotation = Quaternion(0.823575, 0.132778, 0.140391, -0.533278)
 bones/25/scale = Vector3(1, 1, 1)
 bones/26/name = "foot.l"
 bones/26/parent = 25
 bones/26/rest = Transform3D(0.994088, 0.100332, 0.0414949, 0.0970238, -0.649365, -0.754263, -0.0487316, 0.75383, -0.65526, 5.96046e-08, 0.864343, 5.96046e-08)
 bones/26/enabled = true
 bones/26/position = Vector3(5.96046e-08, 0.864343, 5.96046e-08)
-bones/26/rotation = Quaternion(0.985618, -0.00874907, -0.0581364, 0.158435)
+bones/26/rotation = Quaternion(0.980664, -0.0197252, -0.0616543, 0.184683)
 bones/26/scale = Vector3(1, 1, 1)
 bones/27/name = "toe.l"
 bones/27/parent = 26
@@ -669,21 +669,21 @@ bones/31/parent = 30
 bones/31/rest = Transform3D(0.754167, -0.454757, 0.473738, 0.613793, 0.744595, -0.262367, -0.233429, 0.488646, 0.840676, -5.58794e-09, 0.544531, 5.40167e-08)
 bones/31/enabled = true
 bones/31/position = Vector3(-5.58794e-09, 0.544531, 5.40167e-08)
-bones/31/rotation = Quaternion(-0.307588, 0.0492882, 0.361022, 0.87899)
+bones/31/rotation = Quaternion(-0.331408, 0.045601, 0.358639, 0.871474)
 bones/31/scale = Vector3(1, 1, 1)
 bones/32/name = "downleg.r"
 bones/32/parent = 31
 bones/32/rest = Transform3D(0.979624, -0.116026, -0.163933, 0.0629399, -0.597772, 0.799192, -0.190721, -0.793226, -0.578289, 4.47035e-08, 0.635321, -8.75443e-08)
 bones/32/enabled = true
 bones/32/position = Vector3(4.47035e-08, 0.635321, -8.75443e-08)
-bones/32/rotation = Quaternion(0.824906, 0.349615, -0.0793486, -0.437039)
+bones/32/rotation = Quaternion(0.805387, 0.358082, -0.0756866, -0.466262)
 bones/32/scale = Vector3(1, 1, 1)
 bones/33/name = "foot.r"
 bones/33/parent = 32
 bones/33/rest = Transform3D(0.994088, -0.100332, -0.0414947, -0.0970237, -0.649364, -0.754263, 0.0487317, 0.75383, -0.65526, -2.98023e-08, 0.864343, 1.49012e-07)
 bones/33/enabled = true
 bones/33/position = Vector3(-2.98023e-08, 0.864343, 1.49012e-07)
-bones/33/rotation = Quaternion(0.945429, -0.104732, 0.0279518, 0.307267)
+bones/33/rotation = Quaternion(0.940511, -0.101296, 0.0251292, 0.323338)
 bones/33/scale = Vector3(1, 1, 1)
 bones/34/name = "toe.r"
 bones/34/parent = 33
@@ -785,7 +785,7 @@ bones/47/rotation = Quaternion(0.271916, -0.0892559, -0.0177463, 0.958008)
 bones/47/scale = Vector3(1, 1, 1)
 
 [node name="Cartoon Blue Eye_003" type="BoneAttachment3D" parent="AnimationGame/Rig/Skeleton3D"]
-transform = Transform3D(8.1886, 0.0445069, -1.00925, -0.0232412, 8.24879, 0.175193, 1.00997, -0.171033, 8.18685, 0.391827, 2.54367, 0.863713)
+transform = Transform3D(8.19083, 0.00125531, -0.991961, -0.0354855, 8.24576, -0.282577, 0.991327, 0.284791, 8.18596, 0.397134, 2.64694, 0.765971)
 bone_name = "Cartoon Blue Eye.003"
 bone_idx = 12
 
@@ -797,7 +797,7 @@ skeleton = NodePath("")
 "blend_shapes/Key 2" = 0.0
 
 [node name="Cartoon Blue Eye_002" type="BoneAttachment3D" parent="AnimationGame/Rig/Skeleton3D"]
-transform = Transform3D(8.18981, 0.0350691, -0.999741, -0.0161598, 8.24917, 0.156984, 1.00023, -0.153869, 8.18837, -0.04961, 2.58273, 0.810826)
+transform = Transform3D(8.19301, -0.00127052, -0.973832, -0.0250304, 8.24767, -0.221344, 0.973512, 0.222752, 8.19001, -0.0481805, 2.67167, 0.733695)
 bone_name = "Cartoon Blue Eye.002"
 bone_idx = 16
 
@@ -827,7 +827,7 @@ skin = SubResource("Skin_l3oyn")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="AnimationGame"]
 libraries = {
-"": SubResource("AnimationLibrary_h8fnb")
+&"": SubResource("AnimationLibrary_h8fnb")
 }
 
 [node name="AnimationTree" type="AnimationTree" parent="."]

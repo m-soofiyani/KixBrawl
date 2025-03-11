@@ -74,7 +74,7 @@ func update_client_state(_server_calculated_state):
 	
 
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 
 
 	synced_time_ms = SyncTimeWithServer()
@@ -120,10 +120,11 @@ func _process(delta: float) -> void:
 							player.Change_anim(state_b[key]["A"])
 							player.position = interpolated_pos
 	
-	
+		
 		#applying server calculations for granools
-		if typeof(key) == TYPE_STRING:
+		if typeof(key) == TYPE_STRING_NAME:
 			for granool in $Granools.get_children():
+				#print(granool.name)
 				if key == granool.name:
 					if server_states_buffer.size() > 2:
 						var state_a = server_states_buffer[0]
@@ -140,6 +141,7 @@ func _process(delta: float) -> void:
 								lerp(state_a[key]["V"].x , state_b[key]["V"].x , interpolate_factor),
 								lerp(state_a[key]["V"].y , state_b[key]["V"].y , interpolate_factor)
 							)
+							print(interpolated_pos)
 							granool.GeranoolVelocity = interpolated_vel
 							granool.position = interpolated_pos
 func DefinePlayerState():

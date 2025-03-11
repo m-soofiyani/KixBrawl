@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="Client"
-run/main_scene="res://scenes/menu.tscn"
-config/features=PackedStringArray("4.3", "Mobile")
+run/main_scene="uid://dlbgbytnxhug8"
+config/features=PackedStringArray("4.4", "Mobile")
 run/max_fps=45
 run/low_processor_mode=true
 config/icon="res://textures/icon.png"

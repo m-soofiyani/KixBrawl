@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://llstp8nb4sw"]
 
 [ext_resource type="Texture2D" uid="uid://dewrwbeq0r66g" path="res://sprites/joyframe.svg" id="1_b13pv"]
-[ext_resource type="Script" path="res://scripts/joy_stick.gd" id="1_o6w0c"]
+[ext_resource type="Script" uid="uid://4m17p4ecwa11" path="res://scripts/joy_stick.gd" id="1_o6w0c"]
 [ext_resource type="Texture2D" uid="uid://bp4m8es3plmy2" path="res://sprites/joystick.svg" id="2_b7qk5"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_7ghbd"]

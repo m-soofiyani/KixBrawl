@@ -1,7 +1,7 @@
 extends Node2D
 
 var enetserver_peer : ENetMultiplayerPeer = ENetMultiplayerPeer.new()
-var port : int
+var port : int = 8081
 var SPEED := 100
 var message : String
 
@@ -69,6 +69,7 @@ func _physics_process(delta: float) -> void:
 			for granool in $Granools.get_children():
 				
 				Calculated_Player_States[granool.name]["P"] = granool.position
+				#print(granool.name , ": " , granool.position)
 				Calculated_Player_States[granool.name]["V"] = granool.linear_velocity
 				Calculated_Player_States[granool.name]["T"] = now
 				
@@ -79,11 +80,7 @@ func _physics_process(delta: float) -> void:
 func on_peer_connected(id:int):
 	message = "New Peer connected with id : " + str(id)
 	Players_id.append(id)
-	
-	print(message)
-	
-	
-	
+
 	if Players_id.size() == 2:
 		for player_index in Players_id.size():
 			welcome.rpc_id(Players_id[player_index] , "Welcome you added to Players IDS of this match!")
